@@ -111,6 +111,7 @@ Here are the planned features and improvements:
 - [x] 🎁 Promo code support
 - [x] 🌍 Region selector for multi-region support
 - [x] 📖 Developer Guide
+- [x] 🌐 Localization support
 - [ ] 💳 Stripe integration for secure payments
 - [ ] 🔄 Related products suggestions
 - [ ] 🔍 Product search functionality
