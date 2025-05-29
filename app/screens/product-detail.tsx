@@ -26,7 +26,6 @@ type Props = StaticScreenProps<{
 }>;
 
 function ProductScreen({route}: Props) {
-  const {l10n} = useLocalization();
   const {productId} = route.params;
   const {region} = useRegion();
   const {data, error, isPending} = useQuery({
