@@ -13,6 +13,8 @@ A modern e-commerce mobile application built with React Native and Medusa. Wheth
 - 🏃‍♂️ Guest checkout
 - 📦 Order tracking
 - 🎨 Beautiful UI with smooth animations
+- 🌍 Multi-region support
+- 🌐 Localization support
 - 🌙 Dark/Light theme support
 - 🎭 Multiple themes built-in
 - 📱 Native performance with Reanimated
