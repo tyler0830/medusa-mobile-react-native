@@ -7,19 +7,19 @@ import {
   ActivityIndicator,
   RefreshControl,
 } from 'react-native';
-import {useInfiniteQuery} from '@tanstack/react-query';
-import {useNavigation} from '@react-navigation/native';
-import {HttpTypes} from '@medusajs/types';
-import {useLocalization} from '@fluent/react';
-import {useColors} from '@styles/hooks';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { useNavigation } from '@react-navigation/native';
+import { HttpTypes } from '@medusajs/types';
+import { useLocalization } from '@fluent/react';
+import { useColors } from '@styles/hooks';
 import Text from '@components/common/text';
 import Loader from '@components/common/loader';
 import ErrorUI from '@components/common/error-ui';
-import {getProductPrice} from '@utils/product-price';
-import {formatImageUrl} from '@utils/image-url';
+import { getProductPrice } from '@utils/product-price';
+import { formatImageUrl } from '@utils/image-url';
 import PreviewPrice from '@components/product/preview-price';
 import apiClient from '@api/client';
-import {useRegion} from '@data/region-context';
+import { useRegion } from '@data/region-context';
 import WishlistButton from './wishlist-button';
 
 const LIMIT = 10;
@@ -46,9 +46,9 @@ const ProductsList = ({
   name,
   hideTitle = false,
 }: ProductsListProps) => {
-  const {l10n} = useLocalization();
+  const { l10n } = useLocalization();
   const colors = useColors();
-  const {region} = useRegion();
+  const { region } = useRegion();
   const {
     data,
     fetchNextPage,
@@ -61,7 +61,7 @@ const ProductsList = ({
   } = useInfiniteQuery({
     queryKey: queryKey ?? ['products', region?.id],
     initialPageParam: 0,
-    queryFn: async ({pageParam}) => {
+    queryFn: async ({ pageParam }) => {
       const params: HttpTypes.StoreProductListParams = {
         limit: LIMIT,
         offset: pageParam,
@@ -127,7 +127,7 @@ const ProductsList = ({
       data={products}
       numColumns={2}
       ListHeaderComponent={renderHeader}
-      renderItem={({item}) => <ProductItem product={item} />}
+      renderItem={({ item }) => <ProductItem product={item} />}
       keyExtractor={item => item.id ?? ''}
       onEndReached={loadMore}
       onEndReachedThreshold={0.3}
@@ -145,22 +145,23 @@ const ProductsList = ({
   );
 };
 
-const ProductItem = ({product}: {product: HttpTypes.StoreProduct}) => {
-  const {cheapestPrice} = getProductPrice({
+const ProductItem = ({ product }: { product: HttpTypes.StoreProduct }) => {
+  const { cheapestPrice } = getProductPrice({
     product,
   });
   const navigation = useNavigation();
   const navigateToProduct = () => {
-    navigation.navigate('ProductDetail', {productId: product.id});
+    navigation.navigate('ProductDetail', { productId: product.id });
   };
   return (
     <TouchableOpacity
       onPress={navigateToProduct}
-      className="flex-1 max-w-[50%]">
+      className="flex-1 max-w-[50%]"
+    >
       <View>
         <View>
           <Image
-            source={{uri: formatImageUrl(product.thumbnail)}}
+            source={{ uri: formatImageUrl(product.thumbnail) }}
             className="w-full h-48 rounded-2xl"
             resizeMode="cover"
           />

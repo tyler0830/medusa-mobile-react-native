@@ -1,5 +1,5 @@
 // import {vars} from 'nativewind';
-import {applyThemes} from '@styles/utils';
+import { applyThemes } from '@styles/utils';
 
 export const themeColorSets = {
   default: {

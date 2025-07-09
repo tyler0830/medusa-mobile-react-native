@@ -1,22 +1,22 @@
 import React from 'react';
-import {View, FlatList, TouchableOpacity} from 'react-native';
-import {useQuery} from '@tanstack/react-query';
-import {useNavigation} from '@react-navigation/native';
-import {useLocalization} from '@fluent/react';
+import { View, FlatList, TouchableOpacity } from 'react-native';
+import { useQuery } from '@tanstack/react-query';
+import { useNavigation } from '@react-navigation/native';
+import { useLocalization } from '@fluent/react';
 import Navbar from '@components/common/navbar';
 import Text from '@components/common/text';
-import {useColors} from '@styles/hooks';
+import { useColors } from '@styles/hooks';
 import apiClient from '@api/client';
 import Icon from '@react-native-vector-icons/ant-design';
-import {StoreProductCategory} from '@medusajs/types';
+import { StoreProductCategory } from '@medusajs/types';
 import Loader from '@components/common/loader';
 import ErrorUI from '@components/common/error-ui';
 
 export default function Categories() {
-  const {l10n} = useLocalization();
+  const { l10n } = useLocalization();
   const colors = useColors();
   const navigation = useNavigation();
-  const {data, isLoading, error} = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ['categories'],
     queryFn: () => apiClient.store.category.list(),
   });
@@ -29,12 +29,13 @@ export default function Categories() {
     return <ErrorUI />;
   }
 
-  const renderItem = ({item}: {item: StoreProductCategory}) => (
+  const renderItem = ({ item }: { item: StoreProductCategory }) => (
     <TouchableOpacity
       onPress={() => {
-        navigation.navigate('CategoryDetail', {categoryId: item.id});
+        navigation.navigate('CategoryDetail', { categoryId: item.id });
       }}
-      className="flex-row items-center justify-between p-4 border-b border-gray-200">
+      className="flex-row items-center justify-between p-4 border-b border-gray-200"
+    >
       <View className="flex-1">
         <Text className="text-base font-medium text-content">{item.name}</Text>
         {item.description && (

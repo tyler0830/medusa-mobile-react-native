@@ -1,4 +1,4 @@
-import {apiUrl} from '@api/client';
+import { apiUrl } from '@api/client';
 
 export const formatImageUrl = (url?: string | undefined | null) => {
   if (!url) {

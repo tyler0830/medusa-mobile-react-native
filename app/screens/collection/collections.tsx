@@ -1,23 +1,23 @@
 import React from 'react';
-import {View, FlatList, TouchableOpacity} from 'react-native';
-import {useQuery} from '@tanstack/react-query';
-import {useNavigation} from '@react-navigation/native';
-import {useLocalization} from '@fluent/react';
+import { View, FlatList, TouchableOpacity } from 'react-native';
+import { useQuery } from '@tanstack/react-query';
+import { useNavigation } from '@react-navigation/native';
+import { useLocalization } from '@fluent/react';
 import Navbar from '@components/common/navbar';
 import Text from '@components/common/text';
-import {useColors} from '@styles/hooks';
+import { useColors } from '@styles/hooks';
 import apiClient from '@api/client';
 import Icon from '@react-native-vector-icons/ant-design';
-import {HttpTypes} from '@medusajs/types';
+import { HttpTypes } from '@medusajs/types';
 import Loader from '@components/common/loader';
 import ErrorUI from '@components/common/error-ui';
 import FeaturedCollection from '@components/home/featured-collection';
 
 export default function Collections() {
-  const {l10n} = useLocalization();
+  const { l10n } = useLocalization();
   const colors = useColors();
   const navigation = useNavigation();
-  const {data, isLoading, error} = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ['collections'],
     queryFn: () => apiClient.store.collection.list(),
   });
@@ -30,12 +30,13 @@ export default function Collections() {
     return <ErrorUI />;
   }
 
-  const renderItem = ({item}: {item: HttpTypes.StoreCollection}) => (
+  const renderItem = ({ item }: { item: HttpTypes.StoreCollection }) => (
     <TouchableOpacity
       onPress={() => {
-        navigation.navigate('CollectionDetail', {collectionId: item.id});
+        navigation.navigate('CollectionDetail', { collectionId: item.id });
       }}
-      className="flex-row items-center justify-between p-4 border-b border-gray-200">
+      className="flex-row items-center justify-between p-4 border-b border-gray-200"
+    >
       <View className="flex-1">
         <Text className="text-base font-medium text-content">{item.title}</Text>
       </View>

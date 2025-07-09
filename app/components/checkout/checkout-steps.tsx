@@ -1,18 +1,18 @@
 import React from 'react';
-import {View, TouchableOpacity} from 'react-native';
-import {useLocalization} from '@fluent/react';
+import { View, TouchableOpacity } from 'react-native';
+import { useLocalization } from '@fluent/react';
 import Text from '@components/common/text';
 import AntDesign from '@react-native-vector-icons/ant-design';
-import {useColors} from '@styles/hooks';
-import {CheckoutStep, CHECKOUT_STEPS} from '../../types/checkout';
+import { useColors } from '@styles/hooks';
+import { CheckoutStep, CHECKOUT_STEPS } from '../../types/checkout';
 
 type CheckoutStepsProps = {
   currentStep: CheckoutStep;
   onStepPress: (step: CheckoutStep) => void;
 };
 
-const CheckoutSteps = ({currentStep, onStepPress}: CheckoutStepsProps) => {
-  const {l10n} = useLocalization();
+const CheckoutSteps = ({ currentStep, onStepPress }: CheckoutStepsProps) => {
+  const { l10n } = useLocalization();
   const colors = useColors();
 
   const getStepBackground = (isActive: boolean, isPast: boolean) => {
@@ -45,12 +45,14 @@ const CheckoutSteps = ({currentStep, onStepPress}: CheckoutStepsProps) => {
             <TouchableOpacity
               onPress={() => isPast && onStepPress(step.id)}
               disabled={!isPast}
-              className="items-center">
+              className="items-center"
+            >
               <View
                 className={`w-8 h-8 rounded-full items-center justify-center ${getStepBackground(
                   isActive,
                   isPast,
-                )}`}>
+                )}`}
+              >
                 <AntDesign
                   name={step.icon}
                   size={16}
@@ -64,7 +66,8 @@ const CheckoutSteps = ({currentStep, onStepPress}: CheckoutStepsProps) => {
               <Text
                 className={`text-xs mt-1 ${
                   isActive ? 'text-primary font-content-bold' : 'text-gray-500'
-                }`}>
+                }`}
+              >
                 {l10n.getString(step.title)}
               </Text>
             </TouchableOpacity>

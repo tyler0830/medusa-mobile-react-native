@@ -1,5 +1,5 @@
 import Medusa from '@medusajs/js-sdk';
-import {MEDUSA_BACKEND_URL, PUBLISHABLE_API_KEY} from '@env';
+import { MEDUSA_BACKEND_URL, PUBLISHABLE_API_KEY } from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const apiUrl = MEDUSA_BACKEND_URL || 'http://localhost:9000';

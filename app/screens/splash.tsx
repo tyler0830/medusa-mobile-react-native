@@ -1,12 +1,12 @@
-import {useNavigation, StackActions} from '@react-navigation/native';
-import React, {useEffect} from 'react';
-import {StatusBar, View} from 'react-native';
+import { useNavigation, StackActions } from '@react-navigation/native';
+import React, { useEffect } from 'react';
+import { StatusBar, View } from 'react-native';
 import Text from '@components/common/text';
-import {useTheme} from '@styles/hooks';
+import { useTheme } from '@styles/hooks';
 
 const Splash = () => {
   const navigation = useNavigation();
-  const {isDarkMode} = useTheme();
+  const { isDarkMode } = useTheme();
   useEffect(() => {
     setTimeout(() => {
       navigation.dispatch(StackActions.replace('Main'));
@@ -22,7 +22,8 @@ const Splash = () => {
       <View className="flex-1 justify-center items-center bg-primary">
         <Text
           type="display"
-          className="text-content-secondary text-5xl text-center">
+          className="text-content-secondary text-5xl text-center"
+        >
           MEDUSA{'\n'}MOBILE
         </Text>
       </View>

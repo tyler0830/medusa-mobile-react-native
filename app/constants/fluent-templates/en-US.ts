@@ -1,5 +1,5 @@
 import 'dayjs/locale/en';
-import type {FluentTemplate} from './type';
+import type { FluentTemplate } from './type';
 
 const en_US: FluentTemplate = {
   home: 'Home',

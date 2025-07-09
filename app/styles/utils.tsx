@@ -1,5 +1,5 @@
-import {Themes, ThemeColorSets, Colors} from './types';
-import {vars} from 'nativewind';
+import { Themes, ThemeColorSets, Colors } from './types';
+import { vars } from 'nativewind';
 
 export const applyThemes = (themeColorSets: ThemeColorSets): Themes => {
   const themes: Themes = {};

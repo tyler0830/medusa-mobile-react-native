@@ -1,11 +1,10 @@
-import {useCart} from './cart-context';
-import {useRegion} from './region-context';
-import {CheckoutStep} from '../types/checkout';
-import {useCustomer} from './customer-context';
-
+import { useCart } from './cart-context';
+import { useRegion } from './region-context';
+import { CheckoutStep } from '../types/checkout';
+import { useCustomer } from './customer-context';
 
 export const useProductQuantity = (productId: string) => {
-  const {cart} = useCart();
+  const { cart } = useCart();
 
   const quantity = cart?.items?.reduce((acc, item) => {
     if (item.product_id === productId) {
@@ -18,7 +17,7 @@ export const useProductQuantity = (productId: string) => {
 };
 
 export const useVariantQuantity = (variantId: string) => {
-  const {cart} = useCart();
+  const { cart } = useCart();
 
   const quantity = cart?.items?.reduce((acc, item) => {
     if (item.variant_id === variantId) {
@@ -31,7 +30,7 @@ export const useVariantQuantity = (variantId: string) => {
 };
 
 export const useCartQuantity = () => {
-  const {cart} = useCart();
+  const { cart } = useCart();
 
   const quantity = cart?.items?.reduce((acc, item) => {
     return acc + item.quantity;
@@ -46,7 +45,7 @@ type Country = {
 };
 
 export const useCountries = (): Country[] => {
-  const {region} = useRegion();
+  const { region } = useRegion();
 
   return (
     region?.countries
@@ -61,7 +60,7 @@ export const useCountries = (): Country[] => {
 };
 
 export const useCurrentCheckoutStep = (): CheckoutStep => {
-  const {cart} = useCart();
+  const { cart } = useCart();
 
   if (!cart?.shipping_address?.address_1 || !cart?.email) {
     return 'address';
@@ -76,7 +75,7 @@ export const useCurrentCheckoutStep = (): CheckoutStep => {
 };
 
 export const useActivePaymentSession = () => {
-  const {cart} = useCart();
+  const { cart } = useCart();
 
   return cart?.payment_collection?.payment_sessions?.find(
     session => session.status === 'pending',
@@ -84,6 +83,6 @@ export const useActivePaymentSession = () => {
 };
 
 export const useLoggedIn = () => {
-  const {customer} = useCustomer();
+  const { customer } = useCustomer();
   return customer !== undefined;
 };

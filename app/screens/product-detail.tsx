@@ -1,34 +1,37 @@
-import React, {PropsWithChildren, useMemo, useState} from 'react';
-import {useNavigation, type StaticScreenProps} from '@react-navigation/native';
-import {View} from 'react-native';
-import {useLocalization} from '@fluent/react';
+import React, { PropsWithChildren, useMemo, useState } from 'react';
+import {
+  useNavigation,
+  type StaticScreenProps,
+} from '@react-navigation/native';
+import { View } from 'react-native';
+import { useLocalization } from '@fluent/react';
 import AnimatedCartButton from '@components/cart/animated-cart-button';
 import apiClient from '@api/client';
-import {useQuery} from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import Loader from '@components/common/loader';
 import ErrorUI from '@components/common/error-ui';
 import ImageCarousel from '@components/product/image-carousel';
 import Icon from '@react-native-vector-icons/ant-design';
-import {ScrollView} from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
 import Text from '@components/common/text';
 import ProductPrice from '@components/product/product-price';
 import Card from '@components/common/card';
 import utils from '@utils/common';
 import OptionSelect from '@components/product/option-select';
-import {HttpTypes} from '@medusajs/types';
-import {useColors} from '@styles/hooks';
+import { HttpTypes } from '@medusajs/types';
+import { useColors } from '@styles/hooks';
 import RoundedButton from '@components/common/rounded-button';
-import {useRegion} from '@data/region-context';
+import { useRegion } from '@data/region-context';
 import WishlistButton from '@components/product/wishlist-button';
 
 type Props = StaticScreenProps<{
   productId: string;
 }>;
 
-function ProductScreen({route}: Props) {
-  const {productId} = route.params;
-  const {region} = useRegion();
-  const {data, error, isPending} = useQuery({
+function ProductScreen({ route }: Props) {
+  const { productId } = route.params;
+  const { region } = useRegion();
+  const { data, error, isPending } = useQuery({
     queryKey: ['product', productId],
     queryFn: () =>
       apiClient.store.product.retrieve(productId, {
@@ -43,12 +46,12 @@ function ProductScreen({route}: Props) {
     return <ErrorUI />;
   }
 
-  const {product} = data;
+  const { product } = data;
 
   return <ProductContent product={product} />;
 }
 
-const ProductContent = ({product}: {product: HttpTypes.StoreProduct}) => {
+const ProductContent = ({ product }: { product: HttpTypes.StoreProduct }) => {
   const [options, setOptions] = useState<Record<string, string | undefined>>(
     {},
   );
@@ -228,8 +231,8 @@ const SelectVariant = ({
   );
 };
 
-const ProductAttributes = ({product}: {product: any}) => {
-  const {l10n} = useLocalization();
+const ProductAttributes = ({ product }: { product: any }) => {
+  const { l10n } = useLocalization();
 
   return (
     <View>
@@ -281,14 +284,14 @@ const ProductAttributes = ({product}: {product: any}) => {
 };
 
 const Features = () => {
-  const {l10n} = useLocalization();
+  const { l10n } = useLocalization();
   const colors = useColors();
   return (
     <View className="flex-row gap-2">
       <FeatureWrapper>
         <Icon name="swap" size={30} color={colors.content} />
         <Text className="text-sm font-content-bold">
-          {l10n.getString('days-return', {count: 7})}
+          {l10n.getString('days-return', { count: 7 })}
         </Text>
       </FeatureWrapper>
       <FeatureWrapper>
@@ -301,7 +304,7 @@ const Features = () => {
   );
 };
 
-const FeatureWrapper = ({children}: PropsWithChildren<{}>) => {
+const FeatureWrapper = ({ children }: PropsWithChildren<{}>) => {
   return (
     <View className="flex-1 bg-background-secondary gap-2 rounded-lg p-2 justify-center items-center opacity-80">
       {children}

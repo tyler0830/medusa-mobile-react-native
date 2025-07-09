@@ -1,8 +1,8 @@
 import React from 'react';
 import Text from '@components/common/text';
-import {VariantPrice} from 'types/global';
+import { VariantPrice } from 'types/global';
 
-export default function PreviewPrice({price}: {price: VariantPrice}) {
+export default function PreviewPrice({ price }: { price: VariantPrice }) {
   if (!price) {
     return null;
   }

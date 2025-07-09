@@ -1,13 +1,13 @@
-import {StoreCart} from '@medusajs/types';
+import { StoreCart } from '@medusajs/types';
 import React from 'react';
-import {Image, View} from 'react-native';
-import {useLocalization} from '@fluent/react';
+import { Image, View } from 'react-native';
+import { useLocalization } from '@fluent/react';
 import Text from '@components/common/text';
-import {HttpTypes} from '@medusajs/types';
+import { HttpTypes } from '@medusajs/types';
 import LineItemQuantity from '@components/cart/line-item-quantity';
 import LineItemUnitPrice from '@components/cart/line-item-price';
-import {convertToLocale} from '@utils/product-price';
-import {formatImageUrl} from '@utils/image-url';
+import { convertToLocale } from '@utils/product-price';
+import { formatImageUrl } from '@utils/image-url';
 import PromoCodeInput from '@components/cart/promo-code-input';
 
 type CartContentProps = {
@@ -15,7 +15,7 @@ type CartContentProps = {
   mode: 'checkout' | 'cart';
 };
 
-const CartContent = ({cart, mode}: CartContentProps) => {
+const CartContent = ({ cart, mode }: CartContentProps) => {
   return (
     <View>
       <View className="mb-4">
@@ -61,13 +61,13 @@ type CartItemProps = {
   mode: 'checkout' | 'cart';
 };
 
-const CartItem = ({item, currencyCode, mode}: CartItemProps) => {
-  const {l10n} = useLocalization();
+const CartItem = ({ item, currencyCode, mode }: CartItemProps) => {
+  const { l10n } = useLocalization();
 
   return (
     <View className="flex flex-row gap-2 p-2 mb-2 bg-background-secondary rounded-lg items-center">
       <Image
-        source={{uri: formatImageUrl(item.thumbnail)}}
+        source={{ uri: formatImageUrl(item.thumbnail) }}
         className="w-20 h-20"
       />
       <View className="flex-1">
@@ -97,8 +97,8 @@ type SummaryItem = {
   key: keyof StoreCart;
 };
 
-const CartSummary = ({cart}: {cart?: StoreCart}) => {
-  const {l10n} = useLocalization();
+const CartSummary = ({ cart }: { cart?: StoreCart }) => {
+  const { l10n } = useLocalization();
   if (!cart) {
     return null;
   }
@@ -126,7 +126,8 @@ const CartSummary = ({cart}: {cart?: StoreCart}) => {
         {summaryItems.map(item => (
           <View
             className="flex-row justify-between items-center"
-            key={item.key}>
+            key={item.key}
+          >
             <Text className="opacity-80">{item.name}</Text>
             <Text className="text-base">
               {convertToLocale({

@@ -1,15 +1,15 @@
 import React from 'react';
-import {TouchableNativeFeedback, View} from 'react-native';
-import {useLocalization} from '@fluent/react';
+import { TouchableNativeFeedback, View } from 'react-native';
+import { useLocalization } from '@fluent/react';
 import Text from './text';
-import {useColors} from '@styles/hooks';
-import {BottomTabBarProps} from '@react-navigation/bottom-tabs';
+import { useColors } from '@styles/hooks';
+import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import Icon from '@react-native-vector-icons/ant-design';
 
 type icon = 'home' | 'appstore' | 'profile' | 'bars';
 
-function TabBar({state, descriptors, navigation}: BottomTabBarProps) {
-  const {l10n} = useLocalization();
+function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
+  const { l10n } = useLocalization();
   const colors = useColors();
   const iconMap: Record<string, icon> = {
     Home: 'home',
@@ -21,7 +21,7 @@ function TabBar({state, descriptors, navigation}: BottomTabBarProps) {
   return (
     <View className="flex-row justify-around bg-background items-center elevation-lg pb-safe">
       {state.routes.map((route, index) => {
-        const {options} = descriptors[route.key];
+        const { options } = descriptors[route.key];
         const label = options.title !== undefined ? options.title : route.name;
 
         const isFocused = state.index === index;
@@ -44,7 +44,8 @@ function TabBar({state, descriptors, navigation}: BottomTabBarProps) {
           <TouchableNativeFeedback
             key={route.key}
             onPress={onPress}
-            className="flex-1 ">
+            className="flex-1 "
+          >
             <View className="flex-1 h-16 justify-center items-center gap-[1px]">
               <Icon
                 name={iconName}
@@ -54,7 +55,8 @@ function TabBar({state, descriptors, navigation}: BottomTabBarProps) {
               <Text
                 className={`text-sm ${
                   isFocused ? 'text-primary font-content-bold' : 'text-content'
-                }`}>
+                }`}
+              >
                 {l10n.getString(label)}
               </Text>
             </View>

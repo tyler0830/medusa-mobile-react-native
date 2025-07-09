@@ -1,14 +1,14 @@
 import React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {DEFAULT_LOCALE as ENV_DEFAULT_LOCALE} from '@env';
+import { DEFAULT_LOCALE as ENV_DEFAULT_LOCALE } from '@env';
 
-import {FluentBundle, FluentResource} from '@fluent/bundle';
-import {negotiateLanguages} from '@fluent/langneg';
-import {LocalizationProvider, ReactLocalization} from '@fluent/react';
+import { FluentBundle, FluentResource } from '@fluent/bundle';
+import { negotiateLanguages } from '@fluent/langneg';
+import { LocalizationProvider, ReactLocalization } from '@fluent/react';
 
 import dayjs from 'dayjs';
 
-import {en_US, id_ID} from '@constants/fluent-templates';
+import { en_US, id_ID } from '@constants/fluent-templates';
 
 export type Locale = 'en-US' | 'id-ID';
 
@@ -35,7 +35,7 @@ function* lazilyParsedBundles(fetchedMessages: Array<[Locale, string]>) {
 
 const LocaleContext = React.createContext<LocaleContextType | null>(null);
 
-export const LocaleProvider = ({children}: LocaleProviderProps) => {
+export const LocaleProvider = ({ children }: LocaleProviderProps) => {
   const [locale, setLocale] = React.useState<Locale | undefined>();
   const [l10n, setL10n] = React.useState<ReactLocalization | null>(null);
 
@@ -88,7 +88,8 @@ export const LocaleProvider = ({children}: LocaleProviderProps) => {
       value={{
         locale: locale ?? DEFAULT_LOCALE,
         setLocale,
-      }}>
+      }}
+    >
       <LocalizationProvider l10n={l10n}>{children}</LocalizationProvider>
     </LocaleContext.Provider>
   );

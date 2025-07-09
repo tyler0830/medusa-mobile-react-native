@@ -24,10 +24,7 @@ const utils = {
     }
     return true;
   },
-  getCountryName: (
-    countryCode?: string,
-    countries?: BaseRegionCountry[],
-  ) => {
+  getCountryName: (countryCode?: string, countries?: BaseRegionCountry[]) => {
     if (!countryCode || !countries) {
       return '';
     }

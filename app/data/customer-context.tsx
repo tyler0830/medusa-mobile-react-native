@@ -1,7 +1,7 @@
-import React, {createContext, useContext, useEffect, useState} from 'react';
-import {HttpTypes} from '@medusajs/types';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { HttpTypes } from '@medusajs/types';
 import apiClient from '@api/client';
-import {useCart} from './cart-context';
+import { useCart } from './cart-context';
 
 type CustomerContextType = {
   customer?: HttpTypes.StoreCustomer;
@@ -23,9 +23,9 @@ type CustomerProviderProps = {
   children: React.ReactNode;
 };
 
-export const CustomerProvider = ({children}: CustomerProviderProps) => {
+export const CustomerProvider = ({ children }: CustomerProviderProps) => {
   const [customer, setCustomer] = useState<HttpTypes.StoreCustomer>();
-  const {linkCartToCustomer, resetCart} = useCart();
+  const { linkCartToCustomer, resetCart } = useCart();
 
   useEffect(() => {
     // Check for existing session on mount
@@ -34,7 +34,7 @@ export const CustomerProvider = ({children}: CustomerProviderProps) => {
 
   const refreshCustomer = async () => {
     try {
-      const {customer: existingCustomer} =
+      const { customer: existingCustomer } =
         await apiClient.store.customer.retrieve();
       setCustomer(existingCustomer);
     } catch (error) {
@@ -118,7 +118,8 @@ export const CustomerProvider = ({children}: CustomerProviderProps) => {
         register,
         refreshCustomer,
         updateCustomer,
-      }}>
+      }}
+    >
       {children}
     </CustomerContext.Provider>
   );

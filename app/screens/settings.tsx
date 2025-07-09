@@ -1,17 +1,17 @@
 import React from 'react';
-import {View, ScrollView} from 'react-native';
-import {useLocalization} from '@fluent/react';
+import { View, ScrollView } from 'react-native';
+import { useLocalization } from '@fluent/react';
 import Text from '@components/common/text';
 import Navbar from '@components/common/navbar';
-import {DEFAULT_LOCALE, useLocale} from '@data/locale-context';
+import { DEFAULT_LOCALE, useLocale } from '@data/locale-context';
 import Button from '@components/common/button';
 import Dropdown from '@components/common/dropdown';
-import {useForm, Controller} from 'react-hook-form';
-import {zodResolver} from '@hookform/resolvers/zod';
-import {z} from 'zod';
+import { useForm, Controller } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 
 const settingSchema = z.object({
-  language: z.enum(['en-US', 'id-ID'], {message: 'language-is-required'}),
+  language: z.enum(['en-US', 'id-ID'], { message: 'language-is-required' }),
 });
 
 type ProfileFormData = z.infer<typeof settingSchema>;
@@ -33,13 +33,13 @@ const dropdownData: DropdownData[] = [
 ];
 
 const Settings = () => {
-  const {l10n} = useLocalization();
-  const {locale, setLocale} = useLocale();
+  const { l10n } = useLocalization();
+  const { locale, setLocale } = useLocale();
 
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
     reset,
   } = useForm<ProfileFormData>({
     resolver: zodResolver(settingSchema),
@@ -64,7 +64,7 @@ const Settings = () => {
           <Controller
             control={control}
             name="language"
-            render={({field: {onChange, onBlur, value}}) => (
+            render={({ field: { onChange, onBlur, value } }) => (
               <Dropdown
                 data={dropdownData}
                 value={value}

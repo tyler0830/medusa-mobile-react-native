@@ -1,5 +1,5 @@
 import 'dayjs/locale/id';
-import type {FluentTemplate} from './type';
+import type { FluentTemplate } from './type';
 
 const id_ID: FluentTemplate = {
   home: 'Beranda',

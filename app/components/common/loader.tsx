@@ -1,6 +1,6 @@
-import {useColors} from '@styles/hooks';
+import { useColors } from '@styles/hooks';
 import React from 'react';
-import {ActivityIndicator, View} from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 
 const Loader = () => {
   const colors = useColors();

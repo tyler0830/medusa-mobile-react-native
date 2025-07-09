@@ -1,5 +1,5 @@
-import React, {PropsWithChildren} from 'react';
-import {View} from 'react-native';
+import React, { PropsWithChildren } from 'react';
+import { View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useDerivedValue,
@@ -35,12 +35,14 @@ const Accordion = ({
   return (
     <Animated.View
       style={[bodyStyle]}
-      className={`w-full overflow-hidden ${className}`}>
+      className={`w-full overflow-hidden ${className}`}
+    >
       <View
         onLayout={e => {
           height.value = e.nativeEvent.layout.height;
         }}
-        className="w-full absolute">
+        className="w-full absolute"
+      >
         {children}
       </View>
     </Animated.View>

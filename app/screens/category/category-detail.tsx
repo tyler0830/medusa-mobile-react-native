@@ -1,11 +1,11 @@
 import React from 'react';
-import {View} from 'react-native';
+import { View } from 'react-native';
 import Navbar from '@components/common/navbar';
 import ProductsList from '@components/product/product-list';
 import Loader from '@components/common/loader';
 import ErrorUI from '@components/common/error-ui';
 import apiClient from '@api/client';
-import {useQuery} from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
 type CategoryDetailRouteParams = {
   route: {
@@ -15,10 +15,10 @@ type CategoryDetailRouteParams = {
   };
 };
 
-export default function CategoryDetail({route}: CategoryDetailRouteParams) {
-  const {categoryId} = route.params;
+export default function CategoryDetail({ route }: CategoryDetailRouteParams) {
+  const { categoryId } = route.params;
 
-  const {data, isPending, error} = useQuery({
+  const { data, isPending, error } = useQuery({
     queryKey: ['category', categoryId],
     queryFn: () => apiClient.store.category.retrieve(categoryId),
   });

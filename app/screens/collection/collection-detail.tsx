@@ -1,6 +1,6 @@
 import React from 'react';
-import {View} from 'react-native';
-import {useQuery} from '@tanstack/react-query';
+import { View } from 'react-native';
+import { useQuery } from '@tanstack/react-query';
 import Navbar from '@components/common/navbar';
 import ProductsList from '@components/product/product-list';
 import Loader from '@components/common/loader';
@@ -15,10 +15,12 @@ type CollectionDetailRouteParams = {
   };
 };
 
-export default function CollectionDetail({route}: CollectionDetailRouteParams) {
-  const {collectionId} = route.params;
+export default function CollectionDetail({
+  route,
+}: CollectionDetailRouteParams) {
+  const { collectionId } = route.params;
 
-  const {data, isPending, error} = useQuery({
+  const { data, isPending, error } = useQuery({
     queryKey: ['collection', collectionId],
     queryFn: () => apiClient.store.collection.retrieve(collectionId),
   });

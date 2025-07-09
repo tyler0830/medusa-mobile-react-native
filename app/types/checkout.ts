@@ -1,4 +1,4 @@
-import {z} from 'zod';
+import { z } from 'zod';
 
 export type CheckoutStep = 'address' | 'delivery' | 'payment' | 'review';
 
@@ -7,10 +7,10 @@ export const CHECKOUT_STEPS: {
   title: string;
   icon: 'environment' | 'inbox' | 'wallet' | 'profile';
 }[] = [
-  {id: 'address', title: 'address', icon: 'environment'},
-  {id: 'delivery', title: 'delivery', icon: 'inbox'},
-  {id: 'payment', title: 'payment', icon: 'wallet'},
-  {id: 'review', title: 'review', icon: 'profile'},
+  { id: 'address', title: 'address', icon: 'environment' },
+  { id: 'delivery', title: 'delivery', icon: 'inbox' },
+  { id: 'payment', title: 'payment', icon: 'wallet' },
+  { id: 'review', title: 'review', icon: 'profile' },
 ];
 
 export type AddressFields = {
@@ -60,8 +60,8 @@ export type PaymentProvider = {
 
 export const PAYMENT_PROVIDER_DETAILS_MAP: Record<
   string,
-  {name: string; hasExternalStep: boolean}
+  { name: string; hasExternalStep: boolean }
 > = {
-  pp_system_default: {name: 'Manual', hasExternalStep: false},
-  pp_stripe_stripe: {name: 'Stripe', hasExternalStep: true},
+  pp_system_default: { name: 'Manual', hasExternalStep: false },
+  pp_stripe_stripe: { name: 'Stripe', hasExternalStep: true },
 };

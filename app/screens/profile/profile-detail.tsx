@@ -1,17 +1,17 @@
-import React, {useState} from 'react';
-import {View, ScrollView, RefreshControl} from 'react-native';
-import {useLocalization} from '@fluent/react';
+import React, { useState } from 'react';
+import { View, ScrollView, RefreshControl } from 'react-native';
+import { useLocalization } from '@fluent/react';
 import Text from '@components/common/text';
 import Navbar from '@components/common/navbar';
-import {useCustomer} from '@data/customer-context';
+import { useCustomer } from '@data/customer-context';
 import Button from '@components/common/button';
 import Input from '@components/common/input';
-import {useMutation, useQueryClient} from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import apiClient from '@api/client';
-import {useForm, Controller} from 'react-hook-form';
-import {zodResolver} from '@hookform/resolvers/zod';
-import {z} from 'zod';
-import {useColors} from '@styles/hooks';
+import { useForm, Controller } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { useColors } from '@styles/hooks';
 
 const profileSchema = z.object({
   first_name: z.string().min(1, 'first-name-is-required'),
@@ -22,8 +22,8 @@ const profileSchema = z.object({
 type ProfileFormData = z.infer<typeof profileSchema>;
 
 const ProfileDetails = () => {
-  const {l10n} = useLocalization();
-  const {customer, refreshCustomer} = useCustomer();
+  const { l10n } = useLocalization();
+  const { customer, refreshCustomer } = useCustomer();
   const queryClient = useQueryClient();
   const [isEditing, setIsEditing] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -31,7 +31,7 @@ const ProfileDetails = () => {
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
     reset,
   } = useForm<ProfileFormData>({
     resolver: zodResolver(profileSchema),
@@ -51,7 +51,7 @@ const ProfileDetails = () => {
     },
     onSuccess: () => {
       setIsEditing(false);
-      queryClient.invalidateQueries({queryKey: ['customer']});
+      queryClient.invalidateQueries({ queryKey: ['customer'] });
     },
   });
 
@@ -94,7 +94,7 @@ const ProfileDetails = () => {
             <Controller
               control={control}
               name="first_name"
-              render={({field: {onChange, onBlur, value}}) => (
+              render={({ field: { onChange, onBlur, value } }) => (
                 <Input
                   value={value}
                   onChangeText={onChange}
@@ -115,7 +115,7 @@ const ProfileDetails = () => {
             <Controller
               control={control}
               name="last_name"
-              render={({field: {onChange, onBlur, value}}) => (
+              render={({ field: { onChange, onBlur, value } }) => (
                 <Input
                   value={value}
                   onChangeText={onChange}
@@ -136,7 +136,7 @@ const ProfileDetails = () => {
             <Controller
               control={control}
               name="phone"
-              render={({field: {onChange, onBlur, value}}) => (
+              render={({ field: { onChange, onBlur, value } }) => (
                 <Input
                   value={value}
                   onChangeText={onChange}
@@ -186,7 +186,8 @@ const ProfileDetails = () => {
               refreshing={isRefreshing}
               onRefresh={handleRefresh}
             />
-          }>
+          }
+        >
           <View className="p-4 pb-8">{renderContent()}</View>
         </ScrollView>
         <View className="p-4 border-t border-gray-200">

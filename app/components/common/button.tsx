@@ -1,8 +1,8 @@
 import React from 'react';
-import {ActivityIndicator, TouchableOpacity} from 'react-native';
+import { ActivityIndicator, TouchableOpacity } from 'react-native';
 import Text from './text';
-import {tv, type VariantProps} from 'tailwind-variants';
-import {useColors} from '@styles/hooks';
+import { tv, type VariantProps } from 'tailwind-variants';
+import { useColors } from '@styles/hooks';
 
 const button = tv({
   base: 'justify-center items-center rounded-xl h-14',
@@ -80,7 +80,7 @@ const CommonButton = ({
       return children;
     }
     return (
-      <Text className={buttonText({disabled, variant})} numberOfLines={1}>
+      <Text className={buttonText({ disabled, variant })} numberOfLines={1}>
         {title}
       </Text>
     );
@@ -89,7 +89,8 @@ const CommonButton = ({
     <TouchableOpacity
       onPress={loading ? () => {} : onPress}
       disabled={disabled || loading}
-      className={button({disabled, variant})}>
+      className={button({ disabled, variant })}
+    >
       {renderContent()}
     </TouchableOpacity>
   );

@@ -5,8 +5,8 @@ import React, {
   useState,
   useCallback,
 } from 'react';
-import {HttpTypes} from '@medusajs/types';
-import {useRegion} from './region-context';
+import { HttpTypes } from '@medusajs/types';
+import { useRegion } from './region-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import apiClient from '@api/client';
 
@@ -52,9 +52,9 @@ type CartProviderProps = {
   children: React.ReactNode;
 };
 
-export const CartProvider = ({children}: CartProviderProps) => {
+export const CartProvider = ({ children }: CartProviderProps) => {
   const [cart, setCart] = useState<HttpTypes.StoreCart>();
-  const {region} = useRegion();
+  const { region } = useRegion();
 
   const additionalFields = '+shipping_methods.name';
 
@@ -69,7 +69,7 @@ export const CartProvider = ({children}: CartProviderProps) => {
         throw new Error('No cart found');
       }
 
-      const {cart: updatedCart} = await apiClient.store.cart.update(
+      const { cart: updatedCart } = await apiClient.store.cart.update(
         cart.id,
         data,
         {
@@ -116,8 +116,8 @@ export const CartProvider = ({children}: CartProviderProps) => {
       if (!cartId) {
         // create a cart
         apiClient.store.cart
-          .create({region_id: region.id})
-          .then(async ({cart: dataCart}) => {
+          .create({ region_id: region.id })
+          .then(async ({ cart: dataCart }) => {
             await AsyncStorage.setItem(CART_KEY, dataCart.id);
             setCart(dataCart);
           })
@@ -136,7 +136,7 @@ export const CartProvider = ({children}: CartProviderProps) => {
       .retrieve(cartId, {
         fields: additionalFields,
       })
-      .then(({cart: dataCart}) => {
+      .then(({ cart: dataCart }) => {
         setCart(dataCart);
       });
   };
@@ -147,7 +147,7 @@ export const CartProvider = ({children}: CartProviderProps) => {
     }
 
     try {
-      const {cart: dataCart} = await apiClient.store.cart.createLineItem(
+      const { cart: dataCart } = await apiClient.store.cart.createLineItem(
         cart.id,
         {
           variant_id: variantId,
@@ -170,7 +170,7 @@ export const CartProvider = ({children}: CartProviderProps) => {
         await apiClient.store.cart.deleteLineItem(cart.id, lineItemId);
         await fetchCart(cart.id);
       } else {
-        const {cart: dataCart} = await apiClient.store.cart.updateLineItem(
+        const { cart: dataCart } = await apiClient.store.cart.updateLineItem(
           cart.id,
           lineItemId,
           {
@@ -185,14 +185,14 @@ export const CartProvider = ({children}: CartProviderProps) => {
   };
 
   const linkCartToCustomer = async () => {
-    const {cart: dataCart} = await apiClient.store.cart.transferCart(
+    const { cart: dataCart } = await apiClient.store.cart.transferCart(
       cart?.id || '',
     );
     setCart(dataCart);
   };
 
   const setShippingMethod = async (shippingMethodId: string) => {
-    const {cart: updatedCart} = await apiClient.store.cart.addShippingMethod(
+    const { cart: updatedCart } = await apiClient.store.cart.addShippingMethod(
       cart?.id || '',
       {
         option_id: shippingMethodId,
@@ -216,7 +216,7 @@ export const CartProvider = ({children}: CartProviderProps) => {
           ?.filter(p => !p.is_automatic && p.code)
           .map(p => p.code!) || [];
 
-      const {cart: updatedCart} = await apiClient.store.cart.update(cart.id, {
+      const { cart: updatedCart } = await apiClient.store.cart.update(cart.id, {
         promo_codes: [...existingCodes, code],
       });
       setCart(updatedCart);
@@ -244,7 +244,7 @@ export const CartProvider = ({children}: CartProviderProps) => {
           ?.filter(p => !p.is_automatic && p.code !== code)
           .map(p => p.code!) || [];
 
-      const {cart: updatedCart} = await apiClient.store.cart.update(cart.id, {
+      const { cart: updatedCart } = await apiClient.store.cart.update(cart.id, {
         promo_codes: existingCodes,
       });
       setCart(updatedCart);
@@ -266,7 +266,8 @@ export const CartProvider = ({children}: CartProviderProps) => {
         setShippingMethod,
         applyPromoCode,
         removePromoCode,
-      }}>
+      }}
+    >
       {children}
     </CartContext.Provider>
   );
@@ -283,4 +284,4 @@ export const useCart = () => {
 };
 
 // Export types for reuse in other components
-export type {AddressFields, CartUpdateData};
+export type { AddressFields, CartUpdateData };

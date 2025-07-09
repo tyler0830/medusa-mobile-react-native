@@ -1,20 +1,20 @@
-import React, {useTransition} from 'react';
-import {TouchableOpacity, View, FlatList} from 'react-native';
+import React, { useTransition } from 'react';
+import { TouchableOpacity, View, FlatList } from 'react-native';
 import Text from '@components/common/text';
-import {useColors} from '@styles/hooks';
+import { useColors } from '@styles/hooks';
 import Icon from '@react-native-vector-icons/ant-design';
-import {HttpTypes} from '@medusajs/types';
-import {useRegion} from '@data/region-context';
-import {useNavigation} from '@react-navigation/native';
+import { HttpTypes } from '@medusajs/types';
+import { useRegion } from '@data/region-context';
+import { useNavigation } from '@react-navigation/native';
 import Loader from '@components/common/loader';
 import apiClient from '@api/client';
-import {useQuery} from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import ErrorUI from '@components/common/error-ui';
 import Navbar from '@components/common/navbar';
 
 const RegionSelect = () => {
   const colors = useColors();
-  const {region, setRegion} = useRegion();
+  const { region, setRegion } = useRegion();
   const [_, startTransition] = useTransition();
   const navigation = useNavigation();
 
@@ -27,7 +27,7 @@ const RegionSelect = () => {
     navigation.goBack();
   };
 
-  const {data, isLoading, error} = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ['regions'],
     queryFn: () => apiClient.store.region.list(),
   });
@@ -40,10 +40,11 @@ const RegionSelect = () => {
     return <ErrorUI />;
   }
 
-  const renderItem = ({item}: {item: HttpTypes.StoreRegion}) => (
+  const renderItem = ({ item }: { item: HttpTypes.StoreRegion }) => (
     <TouchableOpacity
       onPress={() => onSelect(item)}
-      className="flex-row items-center justify-between p-4 border-b border-gray-200">
+      className="flex-row items-center justify-between p-4 border-b border-gray-200"
+    >
       <View className="flex-1">
         <Text className="text-base font-medium">{item.name}</Text>
         <Text className="text-sm opacity-70">

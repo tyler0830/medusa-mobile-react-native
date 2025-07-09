@@ -1,20 +1,20 @@
 import React from 'react';
-import {View, ScrollView, Image} from 'react-native';
-import {useLocalization} from '@fluent/react';
+import { View, ScrollView, Image } from 'react-native';
+import { useLocalization } from '@fluent/react';
 import Text from '@components/common/text';
 import Navbar from '@components/common/navbar';
-import {useQuery} from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import apiClient from '@api/client';
-import {formatImageUrl} from '@utils/image-url';
-import {convertToLocale} from '@utils/product-price';
+import { formatImageUrl } from '@utils/image-url';
+import { convertToLocale } from '@utils/product-price';
 import dayjs from 'dayjs';
 import Loader from '@components/common/loader';
 import ErrorUI from '@components/common/error-ui';
-import {getFulfillmentStatus, type FulfillmentStatus} from '@utils/order';
-import {useCountries} from '@data/region-context';
+import { getFulfillmentStatus, type FulfillmentStatus } from '@utils/order';
+import { useCountries } from '@data/region-context';
 import utils from '@utils/common';
 import Button from '@components/common/button';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 type OrderDetailProps = {
   route: {
@@ -24,9 +24,9 @@ type OrderDetailProps = {
   };
 };
 
-const OrderDetail = ({route}: OrderDetailProps) => {
-  const {l10n} = useLocalization();
-  const {orderId} = route.params;
+const OrderDetail = ({ route }: OrderDetailProps) => {
+  const { l10n } = useLocalization();
+  const { orderId } = route.params;
   const navigation = useNavigation();
 
   const {
@@ -36,7 +36,9 @@ const OrderDetail = ({route}: OrderDetailProps) => {
   } = useQuery({
     queryKey: ['order', orderId],
     queryFn: async () => {
-      const {order: orderData} = await apiClient.store.order.retrieve(orderId);
+      const { order: orderData } = await apiClient.store.order.retrieve(
+        orderId,
+      );
       return orderData;
     },
   });
@@ -70,7 +72,7 @@ const OrderDetail = ({route}: OrderDetailProps) => {
           {/* Order Header */}
           <View className="mb-6">
             <Text className="text-xl font-bold mb-1">
-              {l10n.getString('order-with-id', {id: order.display_id || '-'})}
+              {l10n.getString('order-with-id', { id: order.display_id || '-' })}
             </Text>
             <Text className="text-content opacity-60">
               {l10n.getString('placed-on', {
@@ -101,7 +103,8 @@ const OrderDetail = ({route}: OrderDetailProps) => {
             {order.items?.map(item => (
               <View
                 key={item.id}
-                className="flex-row items-start py-4 border-b border-primary">
+                className="flex-row items-start py-4 border-b border-primary"
+              >
                 <Image
                   source={{
                     uri: item.thumbnail

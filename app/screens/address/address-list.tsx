@@ -1,31 +1,36 @@
 import React from 'react';
-import {View, ScrollView, TouchableOpacity, RefreshControl} from 'react-native';
-import {useLocalization} from '@fluent/react';
+import {
+  View,
+  ScrollView,
+  TouchableOpacity,
+  RefreshControl,
+} from 'react-native';
+import { useLocalization } from '@fluent/react';
 import Text from '@components/common/text';
 import Navbar from '@components/common/navbar';
-import {useCustomer} from '@data/customer-context';
+import { useCustomer } from '@data/customer-context';
 import Button from '@components/common/button';
-import {useNavigation} from '@react-navigation/native';
-import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
+import { useNavigation } from '@react-navigation/native';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import apiClient from '@api/client';
-import {useColors} from '@styles/hooks';
+import { useColors } from '@styles/hooks';
 import Icon from '@react-native-vector-icons/ant-design';
-import {HttpTypes} from '@medusajs/types';
+import { HttpTypes } from '@medusajs/types';
 import twColors from 'tailwindcss/colors';
-import {useCountries} from '@data/region-context';
+import { useCountries } from '@data/region-context';
 import utils from '@utils/common';
 
 const AddressList = () => {
-  const {l10n} = useLocalization();
-  const {customer} = useCustomer();
+  const { l10n } = useLocalization();
+  const { customer } = useCustomer();
   const colors = useColors();
   const queryClient = useQueryClient();
   const navigation = useNavigation();
 
-  const {data, refetch, isRefetching} = useQuery({
+  const { data, refetch, isRefetching } = useQuery({
     queryKey: ['address-list'],
     queryFn: async () => {
-      const {addresses} = await apiClient.store.customer.listAddress();
+      const { addresses } = await apiClient.store.customer.listAddress();
       return addresses;
     },
     enabled: !!customer,
@@ -38,7 +43,7 @@ const AddressList = () => {
       await apiClient.store.customer.deleteAddress(addressId);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ['address-list']});
+      queryClient.invalidateQueries({ queryKey: ['address-list'] });
     },
   });
 
@@ -49,7 +54,8 @@ const AddressList = () => {
   const renderAddressCard = (address: HttpTypes.StoreCustomerAddress) => (
     <View
       key={address.id}
-      className="bg-background rounded-lg p-4 mb-4 border border-gray-200">
+      className="bg-background rounded-lg p-4 mb-4 border border-gray-200"
+    >
       <View className="flex-row justify-between items-start mb-2">
         <View className="flex-1 gap-1">
           <Text className="font-bold mb-1">
@@ -76,12 +82,14 @@ const AddressList = () => {
                 address,
               })
             }
-            className="p-2">
+            className="p-2"
+          >
             <Icon name="edit" size={20} color={colors.primary} />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => handleDelete(address.id)}
-            className="p-2">
+            className="p-2"
+          >
             <Icon name="delete" size={20} color={twColors.red[500]} />
           </TouchableOpacity>
         </View>
@@ -112,7 +120,8 @@ const AddressList = () => {
               onRefresh={refetch}
               colors={[colors.primary]}
             />
-          }>
+          }
+        >
           <View className="p-4">
             {data?.map(renderAddressCard)}
             {data?.length === 0 && (

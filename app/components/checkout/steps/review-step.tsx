@@ -1,17 +1,17 @@
 import React from 'react';
-import {View} from 'react-native';
+import { View } from 'react-native';
 import Text from '@components/common/text';
-import {HttpTypes} from '@medusajs/types';
-import {useLocalization} from '@fluent/react';
+import { HttpTypes } from '@medusajs/types';
+import { useLocalization } from '@fluent/react';
 import CartContent from '@components/cart/cart-content';
-import {PAYMENT_PROVIDER_DETAILS_MAP} from '../../../types/checkout';
+import { PAYMENT_PROVIDER_DETAILS_MAP } from '../../../types/checkout';
 
 type ReviewStepProps = {
   cart: HttpTypes.StoreCart;
 };
 
-const ReviewStep = ({cart}: ReviewStepProps) => {
-  const {l10n} = useLocalization();
+const ReviewStep = ({ cart }: ReviewStepProps) => {
+  const { l10n } = useLocalization();
   // Find the selected shipping option
   const selectedShippingMethod = cart.shipping_methods?.at(-1);
 

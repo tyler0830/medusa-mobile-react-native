@@ -1,9 +1,9 @@
-import {HttpTypes} from '@medusajs/types';
-import {formatImageUrl} from '@utils/image-url';
-import {cssInterop} from 'nativewind';
+import { HttpTypes } from '@medusajs/types';
+import { formatImageUrl } from '@utils/image-url';
+import { cssInterop } from 'nativewind';
 import React from 'react';
-import {Dimensions, Image, View} from 'react-native';
-import {useSharedValue} from 'react-native-reanimated';
+import { Dimensions, Image, View } from 'react-native';
+import { useSharedValue } from 'react-native-reanimated';
 import Carousel, {
   ICarouselInstance,
   Pagination,
@@ -22,7 +22,7 @@ const PagiationTw = cssInterop(Pagination.Basic, {
   activeDotClassName: 'activeDotStyle',
 });
 
-const ImageCarousel = ({data}: CarouselProps) => {
+const ImageCarousel = ({ data }: CarouselProps) => {
   const ref = React.useRef<ICarouselInstance>(null);
   const progress = useSharedValue<number>(0);
   const onPressPagination = (index: number) => {
@@ -45,11 +45,11 @@ const ImageCarousel = ({data}: CarouselProps) => {
         data={data}
         loop={false}
         onProgressChange={progress}
-        renderItem={({index}) => {
+        renderItem={({ index }) => {
           const uri = formatImageUrl(data[index].url);
           return (
             <Image
-              source={{uri}}
+              source={{ uri }}
               className="w-full h-full"
               resizeMode="cover"
             />

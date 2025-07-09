@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
-import {View, TouchableOpacity} from 'react-native';
-import {useLocalization} from '@fluent/react';
+import React, { useState } from 'react';
+import { View, TouchableOpacity } from 'react-native';
+import { useLocalization } from '@fluent/react';
 import Text from '@components/common/text';
-import {useQuery} from '@tanstack/react-query';
-import {HttpTypes} from '@medusajs/types';
+import { useQuery } from '@tanstack/react-query';
+import { HttpTypes } from '@medusajs/types';
 import apiClient from '@api/client';
 import {
   PaymentProvider,
@@ -21,17 +21,17 @@ const PaymentStep = ({
   selectedProviderId,
   onSelectProvider,
 }: PaymentStepProps) => {
-  const {l10n} = useLocalization();
+  const { l10n } = useLocalization();
   const [error, setError] = useState<string | null>(null);
 
   // Fetch available payment providers
-  const {data: paymentProviders, isLoading: isLoadingProviders} = useQuery({
+  const { data: paymentProviders, isLoading: isLoadingProviders } = useQuery({
     queryKey: ['payment-providers', cart?.region_id],
     queryFn: async () => {
       if (!cart?.region_id) {
         throw new Error(l10n.getString('no-region-id'));
       }
-      const {payment_providers} =
+      const { payment_providers } =
         await apiClient.store.payment.listPaymentProviders({
           region_id: cart.region_id,
         });
@@ -115,12 +115,14 @@ const PaymentStep = ({
               onPress={() => handleProviderSelect(provider)}
               className={`p-4 border rounded-lg flex-row justify-between items-center ${
                 isSelected ? 'border-primary' : 'border-gray-200'
-              }`}>
+              }`}
+            >
               <View className="flex-row items-center flex-1">
                 <View
                   className={`h-6 w-6 rounded-full border-2 items-center justify-center ${
                     isSelected ? 'border-primary' : 'border-gray-300'
-                  }`}>
+                  }`}
+                >
                   {isSelected ? (
                     <View className="h-3 w-3 rounded-full bg-primary" />
                   ) : null}

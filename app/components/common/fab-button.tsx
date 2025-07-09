@@ -1,5 +1,5 @@
 import React from 'react';
-import {Pressable, TouchableOpacity} from 'react-native';
+import { Pressable, TouchableOpacity } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   withSpring,
@@ -9,7 +9,7 @@ import Animated, {
   SharedValue,
 } from 'react-native-reanimated';
 import Icon from '@react-native-vector-icons/ant-design';
-import {useColors} from '@styles/hooks';
+import { useColors } from '@styles/hooks';
 
 const OFFSET = 56; // Distance between buttons
 const SPRING_CONFIG = {
@@ -51,7 +51,7 @@ const ActionButton = ({
 
     return {
       transform: [
-        {translateY: translateValue},
+        { translateY: translateValue },
         {
           scale: withDelay(delay, withTiming(scaleValue)),
         },
@@ -64,14 +64,15 @@ const ActionButton = ({
     <Animated.View className="absolute bottom-0 right-0" style={animatedStyles}>
       <TouchableOpacity
         onPress={onPress}
-        className="bg-background p-4 rounded-full justify-center items-center elevation-sm ">
+        className="bg-background p-4 rounded-full justify-center items-center elevation-sm "
+      >
         <Icon name={icon} size={24} color={colors.content} />
       </TouchableOpacity>
     </Animated.View>
   );
 };
 
-const FabButton = ({actions, mainIcon = 'plus'}: FabButtonProps) => {
+const FabButton = ({ actions, mainIcon = 'plus' }: FabButtonProps) => {
   const colors = useColors();
   const isExpanded = useSharedValue(false);
 
@@ -106,7 +107,8 @@ const FabButton = ({actions, mainIcon = 'plus'}: FabButtonProps) => {
       <Pressable onPress={toggleExpanded}>
         <Animated.View
           style={mainButtonStyle}
-          className="bg-primary p-4 self-center rounded-full justify-center items-center elevation-md">
+          className="bg-primary p-4 self-center rounded-full justify-center items-center elevation-md"
+        >
           <Icon name={mainIcon} size={24} color={colors.contentInverse} />
         </Animated.View>
       </Pressable>

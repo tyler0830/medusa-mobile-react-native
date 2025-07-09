@@ -1,25 +1,25 @@
-import React, {useState, useEffect} from 'react';
-import {View, TouchableOpacity, ActivityIndicator} from 'react-native';
-import {useLocalization} from '@fluent/react';
+import React, { useState, useEffect } from 'react';
+import { View, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { useLocalization } from '@fluent/react';
 import Text from '@components/common/text';
-import {useColors} from '@styles/hooks';
-import {useQuery} from '@tanstack/react-query';
-import {HttpTypes} from '@medusajs/types';
+import { useColors } from '@styles/hooks';
+import { useQuery } from '@tanstack/react-query';
+import { HttpTypes } from '@medusajs/types';
 import apiClient from '@api/client';
-import {convertToLocale} from '@utils/product-price';
-import {useCart} from '@data/cart-context';
+import { convertToLocale } from '@utils/product-price';
+import { useCart } from '@data/cart-context';
 
 type ShippingStepProps = {
   cart: HttpTypes.StoreCart;
 };
 
-const ShippingStep = ({cart}: ShippingStepProps) => {
-  const {l10n} = useLocalization();
+const ShippingStep = ({ cart }: ShippingStepProps) => {
+  const { l10n } = useLocalization();
   const colors = useColors();
   const [calculatedPricesMap, setCalculatedPricesMap] = useState<
     Record<string, number>
   >({});
-  const {setShippingMethod} = useCart();
+  const { setShippingMethod } = useCart();
   const [selectedMethodId, setSelectedMethodId] = useState(
     cart?.shipping_methods?.[0]?.shipping_option_id || null,
   );
@@ -27,22 +27,21 @@ const ShippingStep = ({cart}: ShippingStepProps) => {
   const [isCalculatingPrices, setIsCalculatingPrices] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const {data: shippingOptions, isLoading: isLoadingShippingOptions} = useQuery(
-    {
+  const { data: shippingOptions, isLoading: isLoadingShippingOptions } =
+    useQuery({
       queryKey: ['shipping-options', cart?.id],
       queryFn: async () => {
         if (!cart?.id) {
           throw new Error(l10n.getString('no-cart-id'));
         }
-        const {shipping_options} =
+        const { shipping_options } =
           await apiClient.store.fulfillment.listCartOptions({
             cart_id: cart.id,
           });
         return shipping_options;
       },
       enabled: !!cart?.id,
-    },
-  );
+    });
 
   // Calculate prices for shipping options
   useEffect(() => {
@@ -62,7 +61,7 @@ const ShippingStep = ({cart}: ShippingStepProps) => {
             .calculate(option.id, {
               cart_id: cart.id,
             })
-            .then(({shipping_option}) => ({
+            .then(({ shipping_option }) => ({
               id: shipping_option.id,
               amount: shipping_option.amount,
             })),
@@ -149,14 +148,16 @@ const ShippingStep = ({cart}: ShippingStepProps) => {
                 selectedMethodId === option.id
                   ? 'border-primary'
                   : 'border-gray-200'
-              }`}>
+              }`}
+            >
               <View className="flex-row items-center flex-1">
                 <View
                   className={`h-6 w-6 rounded-full border-2 items-center justify-center ${
                     selectedMethodId === option.id
                       ? 'border-primary'
                       : 'border-gray-300'
-                  }`}>
+                  }`}
+                >
                   {selectedMethodId === option.id ? (
                     <View className="h-3 w-3 rounded-full bg-primary" />
                   ) : null}

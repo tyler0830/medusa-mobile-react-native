@@ -1,6 +1,6 @@
-import React, {PropsWithChildren} from 'react';
-import {TouchableOpacity} from 'react-native';
-import {tv} from 'tailwind-variants';
+import React, { PropsWithChildren } from 'react';
+import { TouchableOpacity } from 'react-native';
+import { tv } from 'tailwind-variants';
 
 const button = tv({
   base: 'bg-content-secondary rounded-full items-center justify-center elevation-sm',
@@ -29,9 +29,7 @@ const RoundedButton = ({
   className,
 }: PropsWithChildren<RoundedButtonProps>) => {
   return (
-    <TouchableOpacity
-      onPress={onPress}
-      className={button({size, className})}>
+    <TouchableOpacity onPress={onPress} className={button({ size, className })}>
       {children}
     </TouchableOpacity>
   );

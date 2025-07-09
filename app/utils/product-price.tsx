@@ -1,4 +1,4 @@
-import {HttpTypes} from '@medusajs/types';
+import { HttpTypes } from '@medusajs/types';
 
 export const getPricesForVariant = (variant: any) => {
   if (!variant?.calculated_price?.calculated_amount) {

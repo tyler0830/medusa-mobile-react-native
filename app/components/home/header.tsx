@@ -1,18 +1,18 @@
 import React from 'react';
-import {TouchableOpacity, View} from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import Text from '@components/common/text';
-import {useCartQuantity, useLoggedIn} from '@data/hooks';
+import { useCartQuantity, useLoggedIn } from '@data/hooks';
 import Icon from '@react-native-vector-icons/ant-design';
 import MaterialIcon from '@react-native-vector-icons/material-design-icons';
-import {TabActions, useNavigation} from '@react-navigation/native';
-import {useColors} from '@styles/hooks';
+import { TabActions, useNavigation } from '@react-navigation/native';
+import { useColors } from '@styles/hooks';
 import Badge from '@components/common/badge';
-import {useQuery} from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import apiClient from '@api/client';
 import RoundedButton from '@components/common/rounded-button';
 
 const Header = () => {
-  const {data} = useQuery({
+  const { data } = useQuery({
     queryKey: ['regions'],
     queryFn: () => apiClient.store.region.list(),
   });
@@ -38,7 +38,8 @@ const RegionSelectorButton = () => {
     <RoundedButton
       onPress={() => {
         navigation.navigate('RegionSelect');
-      }}>
+      }}
+    >
       <MaterialIcon name="map-marker" size={20} color={colors.primary} />
     </RoundedButton>
   );
@@ -56,7 +57,8 @@ const ProfileButton = () => {
         } else {
           navigation.navigate('SignIn');
         }
-      }}>
+      }}
+    >
       <MaterialIcon name="account-outline" size={20} color={colors.primary} />
     </RoundedButton>
   );
@@ -72,7 +74,8 @@ const CartButton = () => {
   return (
     <TouchableOpacity
       onPress={navigateToCart}
-      className="w-12 h-12 justify-center items-center bg-primary rounded-full elevation-sm">
+      className="w-12 h-12 justify-center items-center bg-primary rounded-full elevation-sm"
+    >
       <View>
         <Icon name="shopping-cart" size={18} color={colors.contentSecondary} />
         {itemCount > 0 && (

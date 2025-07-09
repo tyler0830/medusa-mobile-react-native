@@ -1,21 +1,21 @@
 import React from 'react';
-import {View, Switch} from 'react-native';
-import {useLocalization} from '@fluent/react';
+import { View, Switch } from 'react-native';
+import { useLocalization } from '@fluent/react';
 import Text from '@components/common/text';
 import Input from '@components/common/input';
-import {Controller, UseFormReturn} from 'react-hook-form';
-import {CheckoutFormData} from '../../../types/checkout';
+import { Controller, UseFormReturn } from 'react-hook-form';
+import { CheckoutFormData } from '../../../types/checkout';
 import AddressForm from '../address-form';
 
 type AddressStepProps = {
   form: UseFormReturn<CheckoutFormData>;
   isLoading: boolean;
-  countries: {label: string; value: string}[];
+  countries: { label: string; value: string }[];
 };
 
-const AddressStep = ({form, isLoading, countries}: AddressStepProps) => {
-  const {l10n} = useLocalization();
-  const {watch, clearErrors} = form;
+const AddressStep = ({ form, isLoading, countries }: AddressStepProps) => {
+  const { l10n } = useLocalization();
+  const { watch, clearErrors } = form;
   const useSameBilling = watch('use_same_billing');
 
   return (
@@ -23,7 +23,7 @@ const AddressStep = ({form, isLoading, countries}: AddressStepProps) => {
       <Controller
         control={form.control}
         name="email"
-        render={({field: {onChange, value}}) => (
+        render={({ field: { onChange, value } }) => (
           <Input
             label={l10n.getString('email')}
             value={value}
@@ -51,7 +51,7 @@ const AddressStep = ({form, isLoading, countries}: AddressStepProps) => {
         <Controller
           control={form.control}
           name="use_same_billing"
-          render={({field: {onChange, value}}) => (
+          render={({ field: { onChange, value } }) => (
             <Switch
               value={value}
               onValueChange={onChange}

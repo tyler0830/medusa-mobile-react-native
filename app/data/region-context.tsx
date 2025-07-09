@@ -1,5 +1,5 @@
-import React, {createContext, useContext, useEffect, useState} from 'react';
-import {HttpTypes} from '@medusajs/types';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { HttpTypes } from '@medusajs/types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import apiClient from '@api/client';
 
@@ -18,7 +18,7 @@ type RegionProviderProps = {
   children: React.ReactNode;
 };
 
-export const RegionProvider = ({children}: RegionProviderProps) => {
+export const RegionProvider = ({ children }: RegionProviderProps) => {
   const [region, setRegion] = useState<HttpTypes.StoreRegion>();
 
   useEffect(() => {
@@ -40,7 +40,7 @@ export const RegionProvider = ({children}: RegionProviderProps) => {
         // retrieve selected region
         apiClient.store.region
           .retrieve(regionId)
-          .then(({region: dataRegion}) => {
+          .then(({ region: dataRegion }) => {
             setRegion(dataRegion);
           });
       }
@@ -52,7 +52,8 @@ export const RegionProvider = ({children}: RegionProviderProps) => {
       value={{
         region,
         setRegion,
-      }}>
+      }}
+    >
       {children}
     </RegionContext.Provider>
   );
@@ -69,6 +70,6 @@ export const useRegion = () => {
 };
 
 export const useCountries = () => {
-  const {region} = useRegion();
+  const { region } = useRegion();
   return region?.countries;
 };

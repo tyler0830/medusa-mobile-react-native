@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
-import {View, ScrollView, Alert} from 'react-native';
-import {useLocalization} from '@fluent/react';
-import {useCart} from '@data/cart-context';
-import {CommonActions, useNavigation} from '@react-navigation/native';
+import React, { useState } from 'react';
+import { View, ScrollView, Alert } from 'react-native';
+import { useLocalization } from '@fluent/react';
+import { useCart } from '@data/cart-context';
+import { CommonActions, useNavigation } from '@react-navigation/native';
 import Button from '@components/common/button';
-import {useForm} from 'react-hook-form';
-import {zodResolver} from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import Navbar from '@components/common/navbar';
 import apiClient from '@api/client';
 import {
@@ -28,12 +28,12 @@ import {
   useCurrentCheckoutStep,
   useActivePaymentSession,
 } from '@data/hooks';
-import {StoreCartAddress} from '@medusajs/types';
+import { StoreCartAddress } from '@medusajs/types';
 import utils from '@utils/common';
 
 const Checkout = () => {
-  const {l10n} = useLocalization();
-  const {cart, updateCart, resetCart} = useCart();
+  const { l10n } = useLocalization();
+  const { cart, updateCart, resetCart } = useCart();
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
   const countries = useCountries();
@@ -130,7 +130,7 @@ const Checkout = () => {
       return;
     }
 
-    const {email, shipping_address, billing_address, use_same_billing} =
+    const { email, shipping_address, billing_address, use_same_billing } =
       form.getValues();
 
     const payload = {
@@ -197,7 +197,7 @@ const Checkout = () => {
             },
             {
               name: 'OrderDetail',
-              params: {orderId: response.order.id},
+              params: { orderId: response.order.id },
             },
           ],
         }),

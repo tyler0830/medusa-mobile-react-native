@@ -1,12 +1,12 @@
 import React from 'react';
-import {View, ScrollView, TouchableOpacity} from 'react-native';
-import {useLocalization} from '@fluent/react';
+import { View, ScrollView, TouchableOpacity } from 'react-native';
+import { useLocalization } from '@fluent/react';
 import Text from '@components/common/text';
 import MaterialIcon from '@react-native-vector-icons/material-design-icons';
-import {useColors} from '@styles/hooks';
-import {useNavigation} from '@react-navigation/native';
+import { useColors } from '@styles/hooks';
+import { useNavigation } from '@react-navigation/native';
 import Navbar from '@components/common/navbar';
-import {useCustomer} from '@data/customer-context';
+import { useCustomer } from '@data/customer-context';
 import twColors from 'tailwindcss/colors';
 
 type ProfileOptionType = {
@@ -21,9 +21,9 @@ type ProfileOptionType = {
 };
 
 const Profile = () => {
-  const {l10n} = useLocalization();
+  const { l10n } = useLocalization();
   const navigation = useNavigation();
-  const {customer, logout} = useCustomer();
+  const { customer, logout } = useCustomer();
 
   if (!customer) {
     return (
@@ -35,7 +35,8 @@ const Profile = () => {
           </Text>
           <TouchableOpacity
             onPress={() => navigation.navigate('SignIn')}
-            className="bg-primary px-8 py-4 rounded-lg">
+            className="bg-primary px-8 py-4 rounded-lg"
+          >
             <Text className="text-white font-medium">
               {l10n.getString('sign-in')}
             </Text>
@@ -125,7 +126,7 @@ const ProfileOption = ({
   icon,
   label,
   onPress,
-}: ProfileOptionType & {onPress?: () => void}) => {
+}: ProfileOptionType & { onPress?: () => void }) => {
   const colors = useColors();
   return (
     <TouchableOpacity onPress={onPress}>

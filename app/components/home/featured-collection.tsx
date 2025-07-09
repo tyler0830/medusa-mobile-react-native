@@ -7,19 +7,19 @@ import {
   ScrollView,
   StyleSheet,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {useQuery} from '@tanstack/react-query';
-import {useLocalization} from '@fluent/react';
+import { useNavigation } from '@react-navigation/native';
+import { useQuery } from '@tanstack/react-query';
+import { useLocalization } from '@fluent/react';
 import Text from '@components/common/text';
-import {formatImageUrl} from '@utils/image-url';
-import {HttpTypes} from '@medusajs/types';
+import { formatImageUrl } from '@utils/image-url';
+import { HttpTypes } from '@medusajs/types';
 import apiClient from '@api/client';
-import {useRegion} from '@data/region-context';
+import { useRegion } from '@data/region-context';
 import PreviewPrice from '@components/product/preview-price';
-import {getProductPrice} from '@utils/product-price';
-import {TabActions} from '@react-navigation/native';
+import { getProductPrice } from '@utils/product-price';
+import { TabActions } from '@react-navigation/native';
 
-const {width} = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 const ITEM_WIDTH = width * 0.35;
 const ITEM_GAP = 16;
 
@@ -36,11 +36,11 @@ const FeaturedCollection = ({
   showCta = true,
   queryKey,
 }: FeaturedCollectionProps) => {
-  const {l10n} = useLocalization();
+  const { l10n } = useLocalization();
   const navigation = useNavigation();
-  const {region} = useRegion();
+  const { region } = useRegion();
 
-  const {data} = useQuery({
+  const { data } = useQuery({
     queryKey: queryKey ?? ['products', name, region?.id],
     queryFn: async () => {
       const response = await apiClient.store.product.list({
@@ -66,7 +66,8 @@ const FeaturedCollection = ({
           <TouchableOpacity
             onPress={() =>
               navigation.dispatch(TabActions.jumpTo('Collections'))
-            }>
+            }
+          >
             <Text className="text-primary">{l10n.getString('see-all')}</Text>
           </TouchableOpacity>
         )}
@@ -78,7 +79,8 @@ const FeaturedCollection = ({
           contentContainerStyle={styles.contentContainer}
           decelerationRate="fast"
           snapToInterval={ITEM_WIDTH + ITEM_GAP}
-          snapToAlignment="start">
+          snapToAlignment="start"
+        >
           {data.products.map(product => (
             <ProductCard key={product.id} product={product} />
           ))}
@@ -94,19 +96,20 @@ const styles = StyleSheet.create({
   },
 });
 
-const ProductCard = ({product}: {product: HttpTypes.StoreProduct}) => {
+const ProductCard = ({ product }: { product: HttpTypes.StoreProduct }) => {
   const navigation = useNavigation();
-  const {cheapestPrice} = getProductPrice({product});
+  const { cheapestPrice } = getProductPrice({ product });
 
   return (
     <TouchableOpacity
       onPress={() =>
-        navigation.navigate('ProductDetail', {productId: product.id})
+        navigation.navigate('ProductDetail', { productId: product.id })
       }
-      style={{width: ITEM_WIDTH}}
-      className="gap-2">
+      style={{ width: ITEM_WIDTH }}
+      className="gap-2"
+    >
       <Image
-        source={{uri: formatImageUrl(product.thumbnail)}}
+        source={{ uri: formatImageUrl(product.thumbnail) }}
         className="w-full h-48 rounded-lg"
         resizeMode="cover"
       />

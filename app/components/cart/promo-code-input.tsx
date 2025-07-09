@@ -1,28 +1,28 @@
-import React, {useState} from 'react';
-import {View, TouchableOpacity, Keyboard} from 'react-native';
-import {useLocalization} from '@fluent/react';
-import {useCart} from '@data/cart-context';
+import React, { useState } from 'react';
+import { View, TouchableOpacity, Keyboard } from 'react-native';
+import { useLocalization } from '@fluent/react';
+import { useCart } from '@data/cart-context';
 import Input from '@components/common/input';
 import RoundedButton from '@components/common/rounded-button';
 import Text from '@components/common/text';
 import Icon from '@react-native-vector-icons/ant-design';
-import {useColors} from '@styles/hooks';
-import {HttpTypes} from '@medusajs/types';
+import { useColors } from '@styles/hooks';
+import { HttpTypes } from '@medusajs/types';
 import Badge from '@components/common/badge';
-import {convertToLocale} from '@utils/product-price';
+import { convertToLocale } from '@utils/product-price';
 import Button from '@components/common/button';
 import Accordion from '@components/common/accordion';
-import {useSharedValue} from 'react-native-reanimated';
+import { useSharedValue } from 'react-native-reanimated';
 
 type Promotion = HttpTypes.StorePromotion;
 
 const PromoCodeInput = () => {
-  const {l10n} = useLocalization();
+  const { l10n } = useLocalization();
   const [code, setCode] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const isExpanded = useSharedValue(false);
-  const {applyPromoCode, removePromoCode, cart} = useCart();
+  const { applyPromoCode, removePromoCode, cart } = useCart();
   const colors = useColors();
 
   const handleCodeChange = (text: string) => {
@@ -77,9 +77,11 @@ const PromoCodeInput = () => {
         <TouchableOpacity
           onPress={() => {
             isExpanded.value = !isExpanded.value;
-          }}>
+          }}
+        >
           <Text
-            className={`text-primary ${isExpanded.value ? 'mb-2' : 'mb-4'}`}>
+            className={`text-primary ${isExpanded.value ? 'mb-2' : 'mb-4'}`}
+          >
             {l10n.getString('add-a-promo-code')}
           </Text>
         </TouchableOpacity>
@@ -115,7 +117,8 @@ const PromoCodeInput = () => {
           {promotions.map((promotion, index) => (
             <View
               key={promotion.id}
-              className="flex-row justify-between items-center bg-background-secondary px-3 py-2 rounded-lg mb-4">
+              className="flex-row justify-between items-center bg-background-secondary px-3 py-2 rounded-lg mb-4"
+            >
               <View className="flex-1">
                 <View className="flex-row items-center gap-2">
                   <Badge
@@ -143,7 +146,8 @@ const PromoCodeInput = () => {
                   size="sm"
                   onPress={() =>
                     promotion.code && handleRemoveCode(promotion.code)
-                  }>
+                  }
+                >
                   <Icon name="close" size={12} color={colors.primary} />
                 </RoundedButton>
               )}

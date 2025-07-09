@@ -1,15 +1,15 @@
-import {formatImageUrl} from '@utils/image-url';
-import {cssInterop} from 'nativewind';
+import { formatImageUrl } from '@utils/image-url';
+import { cssInterop } from 'nativewind';
 import React from 'react';
-import {Dimensions, Image, View} from 'react-native';
-import {useSharedValue} from 'react-native-reanimated';
+import { Dimensions, Image, View } from 'react-native';
+import { useSharedValue } from 'react-native-reanimated';
 import Carousel, {
   ICarouselInstance,
   Pagination,
 } from 'react-native-reanimated-carousel';
-import {useQuery} from '@tanstack/react-query';
-import {useNavigation} from '@react-navigation/native';
-import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
+import { useQuery } from '@tanstack/react-query';
+import { useNavigation } from '@react-navigation/native';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 const width = Dimensions.get('window').width;
 
@@ -31,7 +31,7 @@ const HeroCarousel = () => {
   const navigation = useNavigation();
   const enableNavigation = false;
 
-  const {data} = useQuery<HeroCarouselItem[]>({
+  const { data } = useQuery<HeroCarouselItem[]>({
     queryKey: ['hero-carousel'],
     queryFn: async () => {
       const response = await fetch(
@@ -58,13 +58,13 @@ const HeroCarousel = () => {
     }
     const item = data[index];
     if (item.type === 'product') {
-      navigation.navigate('ProductDetail', {productId: item.entityId});
+      navigation.navigate('ProductDetail', { productId: item.entityId });
     }
     if (item.type === 'category') {
-      navigation.navigate('CategoryDetail', {categoryId: item.entityId});
+      navigation.navigate('CategoryDetail', { categoryId: item.entityId });
     }
     if (item.type === 'collection') {
-      navigation.navigate('CollectionDetail', {collectionId: item.entityId});
+      navigation.navigate('CollectionDetail', { collectionId: item.entityId });
     }
   };
 
@@ -84,12 +84,12 @@ const HeroCarousel = () => {
           parallaxScrollingScale: 0.92,
           parallaxScrollingOffset: 0,
         }}
-        renderItem={({index}) => {
+        renderItem={({ index }) => {
           const uri = formatImageUrl(data[index].imageUrl);
           return (
             <TouchableWithoutFeedback onPress={() => onPressItem(index)}>
               <Image
-                source={{uri}}
+                source={{ uri }}
                 className="w-full h-full rounded-lg border border-gray-200"
                 resizeMode="cover"
               />

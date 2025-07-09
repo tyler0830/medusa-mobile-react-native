@@ -1,19 +1,19 @@
 import React from 'react';
-import {View} from 'react-native';
-import {useLocalization} from '@fluent/react';
+import { View } from 'react-native';
+import { useLocalization } from '@fluent/react';
 import Text from '@components/common/text';
 import Input from '@components/common/input';
-import {Picker} from '@react-native-picker/picker';
-import {Controller, UseFormReturn, FieldError} from 'react-hook-form';
-import {CheckoutFormData, AddressFields} from '../../types/checkout';
-import {Path} from 'react-hook-form';
+import { Picker } from '@react-native-picker/picker';
+import { Controller, UseFormReturn, FieldError } from 'react-hook-form';
+import { CheckoutFormData, AddressFields } from '../../types/checkout';
+import { Path } from 'react-hook-form';
 
 type AddressFormProps = {
   title: string;
   form: UseFormReturn<CheckoutFormData>;
   type: 'shipping' | 'billing';
   isLoading?: boolean;
-  countries: {label: string; value: string}[];
+  countries: { label: string; value: string }[];
 };
 
 const AddressForm = ({
@@ -23,15 +23,15 @@ const AddressForm = ({
   isLoading,
   countries,
 }: AddressFormProps) => {
-  const {l10n} = useLocalization();
+  const { l10n } = useLocalization();
   const {
     control,
-    formState: {errors},
+    formState: { errors },
     clearErrors,
   } = form;
 
   const addressErrors = errors[`${type}_address`] as
-    | {[K in keyof AddressFields]?: FieldError}
+    | { [K in keyof AddressFields]?: FieldError }
     | undefined;
 
   const getFieldName = (field: keyof AddressFields): Path<CheckoutFormData> =>
@@ -50,7 +50,7 @@ const AddressForm = ({
       <Controller
         control={control}
         name={getFieldName('first_name')}
-        render={({field: {onChange, value}}) => (
+        render={({ field: { onChange, value } }) => (
           <Input
             label={l10n.getString('first-name')}
             value={value as string}
@@ -63,7 +63,7 @@ const AddressForm = ({
       <Controller
         control={control}
         name={getFieldName('last_name')}
-        render={({field: {onChange, value}}) => (
+        render={({ field: { onChange, value } }) => (
           <Input
             label={l10n.getString('last-name')}
             value={value as string}
@@ -76,7 +76,7 @@ const AddressForm = ({
       <Controller
         control={control}
         name={getFieldName('address_1')}
-        render={({field: {onChange, value}}) => (
+        render={({ field: { onChange, value } }) => (
           <Input
             label={l10n.getString('address')}
             value={value as string}
@@ -89,7 +89,7 @@ const AddressForm = ({
       <Controller
         control={control}
         name={getFieldName('company')}
-        render={({field: {onChange, value}}) => (
+        render={({ field: { onChange, value } }) => (
           <Input
             label={`${l10n.getString('company')} (${l10n.getString(
               'optional',
@@ -104,7 +104,7 @@ const AddressForm = ({
       <Controller
         control={control}
         name={getFieldName('postal_code')}
-        render={({field: {onChange, value}}) => (
+        render={({ field: { onChange, value } }) => (
           <Input
             label={l10n.getString('postal-code')}
             value={value as string}
@@ -117,7 +117,7 @@ const AddressForm = ({
       <Controller
         control={control}
         name={getFieldName('city')}
-        render={({field: {onChange, value}}) => (
+        render={({ field: { onChange, value } }) => (
           <Input
             label={l10n.getString('city')}
             value={value as string}
@@ -130,7 +130,7 @@ const AddressForm = ({
       <Controller
         control={control}
         name={getFieldName('province')}
-        render={({field: {onChange, value}}) => (
+        render={({ field: { onChange, value } }) => (
           <Input
             label={`${l10n.getString('province-or-state')} (${l10n.getString(
               'optional',
@@ -145,7 +145,7 @@ const AddressForm = ({
       <Controller
         control={control}
         name={getFieldName('country_code')}
-        render={({field: {onChange, value}}) => (
+        render={({ field: { onChange, value } }) => (
           <View className="mb-4">
             <Text className="text-sm font-content mb-2">
               {l10n.getString('country')}
@@ -155,14 +155,16 @@ const AddressForm = ({
                 addressErrors?.country_code
                   ? 'border-red-500'
                   : 'border-gray-300'
-              }`}>
+              }`}
+            >
               <Picker
                 selectedValue={value}
                 onValueChange={val => {
                   clearErrors(`${type}_address.country_code`);
                   onChange(val);
                 }}
-                enabled={!isLoading}>
+                enabled={!isLoading}
+              >
                 <Picker.Item
                   label={l10n.getString('select-a-country')}
                   value=""
@@ -187,7 +189,7 @@ const AddressForm = ({
       <Controller
         control={control}
         name={getFieldName('phone')}
-        render={({field: {onChange, value}}) => (
+        render={({ field: { onChange, value } }) => (
           <Input
             label={l10n.getString('phone')}
             value={value as string}

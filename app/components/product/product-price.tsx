@@ -1,7 +1,7 @@
 import React from 'react';
-import {View} from 'react-native';
-import {getProductPrice} from '@utils/product-price';
-import {HttpTypes} from '@medusajs/types';
+import { View } from 'react-native';
+import { getProductPrice } from '@utils/product-price';
+import { HttpTypes } from '@medusajs/types';
 import Text from '@components/common/text';
 
 export default function ProductPrice({
@@ -11,7 +11,7 @@ export default function ProductPrice({
   product: HttpTypes.StoreProduct;
   variant?: HttpTypes.StoreProductVariant;
 }) {
-  const {cheapestPrice, variantPrice} = getProductPrice({
+  const { cheapestPrice, variantPrice } = getProductPrice({
     product,
     variantId: variant?.id,
   });
@@ -37,7 +37,8 @@ export default function ProductPrice({
               testID="original-product-price"
               accessibilityValue={{
                 text: selectedPrice.original_price_number.toString(),
-              }}>
+              }}
+            >
               {selectedPrice.original_price}
             </Text>
           </Text>

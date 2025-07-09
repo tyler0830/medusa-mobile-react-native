@@ -6,23 +6,23 @@ import {
   RefreshControl,
   Image,
 } from 'react-native';
-import {useLocalization} from '@fluent/react';
+import { useLocalization } from '@fluent/react';
 import Text from '@components/common/text';
 import Navbar from '@components/common/navbar';
-import {useCustomer} from '@data/customer-context';
+import { useCustomer } from '@data/customer-context';
 import apiClient from '@api/client';
-import {HttpTypes} from '@medusajs/types';
+import { HttpTypes } from '@medusajs/types';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import {useQuery} from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import Loader from '@components/common/loader';
 import ErrorUI from '@components/common/error-ui';
-import {formatImageUrl} from '@utils/image-url';
-import {convertToLocale} from '@utils/product-price';
-import {useNavigation} from '@react-navigation/native';
-import {getFulfillmentStatus, type FulfillmentStatus} from '@utils/order';
+import { formatImageUrl } from '@utils/image-url';
+import { convertToLocale } from '@utils/product-price';
+import { useNavigation } from '@react-navigation/native';
+import { getFulfillmentStatus, type FulfillmentStatus } from '@utils/order';
 
-import {useColors} from '@styles/hooks';
+import { useColors } from '@styles/hooks';
 dayjs.extend(relativeTime);
 
 type Order = HttpTypes.StoreOrder;
@@ -30,11 +30,11 @@ type Order = HttpTypes.StoreOrder;
 const MAX_THUMBNAILS = 5;
 
 const OrdersScreen = () => {
-  const {l10n} = useLocalization();
-  const {customer} = useCustomer();
+  const { l10n } = useLocalization();
+  const { customer } = useCustomer();
   const navigation = useNavigation();
 
-  const {isPending, error, data, refetch, isRefetching} = useQuery({
+  const { isPending, error, data, refetch, isRefetching } = useQuery({
     queryKey: ['orders'],
     queryFn: () => apiClient.store.order.list(),
     enabled: !!customer,
@@ -43,20 +43,21 @@ const OrdersScreen = () => {
   const colors = useColors();
 
   const handleOrderPress = (orderId: string) => {
-    navigation.navigate('OrderDetail', {orderId});
+    navigation.navigate('OrderDetail', { orderId });
   };
 
-  const renderOrderItem = ({item}: {item: Order}) => {
+  const renderOrderItem = ({ item }: { item: Order }) => {
     const itemsToShow = item.items?.slice(0, MAX_THUMBNAILS) || [];
     const remainingItems = (item.items?.length || 0) - MAX_THUMBNAILS;
 
     return (
       <TouchableOpacity
         className="bg-background rounded-lg p-4 mb-4 border border-primary"
-        onPress={() => handleOrderPress(item.id)}>
+        onPress={() => handleOrderPress(item.id)}
+      >
         <View className="flex-row justify-between mb-2">
           <Text className="text-base font-bold">
-            {l10n.getString('order-with-id', {id: item.display_id ?? '-'})}
+            {l10n.getString('order-with-id', { id: item.display_id ?? '-' })}
           </Text>
           <Text className="text-sm text-gray-500">
             {dayjs(item.created_at).fromNow()}
@@ -85,7 +86,7 @@ const OrdersScreen = () => {
                   orderItem.thumbnail && (
                     <Image
                       key={orderItem.id}
-                      source={{uri: formatImageUrl(orderItem.thumbnail)}}
+                      source={{ uri: formatImageUrl(orderItem.thumbnail) }}
                       className="w-12 h-12"
                       resizeMode="cover"
                     />
@@ -102,7 +103,8 @@ const OrdersScreen = () => {
           </View>
           <TouchableOpacity
             onPress={() => handleOrderPress(item.id)}
-            className="bg-primary rounded-lg p-3">
+            className="bg-primary rounded-lg p-3"
+          >
             <Text className="text-content-secondary">
               {l10n.getString('view')}
             </Text>

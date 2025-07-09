@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
-import {View} from 'react-native';
+import React, { useState } from 'react';
+import { View } from 'react-native';
 import {
   Dropdown as BaseDropdown,
   type IDropdownRef,
 } from 'react-native-element-dropdown';
 import Text from './text';
-import {DropdownProps as BaseDropdownProps} from 'react-native-element-dropdown/lib/typescript/components/Dropdown/model';
+import { DropdownProps as BaseDropdownProps } from 'react-native-element-dropdown/lib/typescript/components/Dropdown/model';
 
 type DropdownProps<T> = BaseDropdownProps<T> & {
   label?: string;
@@ -47,7 +47,8 @@ const Dropdown = React.forwardRef<IDropdownRef, DropdownProps<any>>(
               : isFocused
               ? 'border-primary'
               : 'border-gray-300'
-          } ${className}`}>
+          } ${className}`}
+        >
           <BaseDropdown
             ref={ref}
             onChangeText={text => {

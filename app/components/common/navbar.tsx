@@ -1,8 +1,8 @@
 import React from 'react';
-import {View} from 'react-native';
+import { View } from 'react-native';
 import RoundedButton from '@components/common/rounded-button';
 import Icon from '@react-native-vector-icons/ant-design';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import Text from '@components/common/text';
 
 type NavbarProps = {
@@ -10,7 +10,7 @@ type NavbarProps = {
   showBackButton?: boolean;
 };
 
-const Navbar = ({title, showBackButton = true}: NavbarProps) => {
+const Navbar = ({ title, showBackButton = true }: NavbarProps) => {
   const navigation = useNavigation();
   const goBack = () => {
     navigation.goBack();

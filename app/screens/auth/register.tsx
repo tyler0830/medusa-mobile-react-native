@@ -1,14 +1,14 @@
-import React, {useState} from 'react';
-import {View, TouchableOpacity, ScrollView, Keyboard} from 'react-native';
-import {useLocalization} from '@fluent/react';
+import React, { useState } from 'react';
+import { View, TouchableOpacity, ScrollView, Keyboard } from 'react-native';
+import { useLocalization } from '@fluent/react';
 import Text from '@components/common/text';
 import Input from '@components/common/input';
 import Button from '@components/common/button';
-import {useCustomer} from '@data/customer-context';
-import {CommonActions, useNavigation} from '@react-navigation/native';
+import { useCustomer } from '@data/customer-context';
+import { CommonActions, useNavigation } from '@react-navigation/native';
 import Navbar from '@components/common/navbar';
-import {useForm, Controller} from 'react-hook-form';
-import {zodResolver} from '@hookform/resolvers/zod';
+import { useForm, Controller } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 
 const registerSchema = z.object({
@@ -21,16 +21,16 @@ const registerSchema = z.object({
 type RegisterSchema = z.infer<typeof registerSchema>;
 
 const Register = () => {
-  const {l10n} = useLocalization();
+  const { l10n } = useLocalization();
   const [loading, setLoading] = useState(false);
-  const {register: registerCustomer} = useCustomer();
+  const { register: registerCustomer } = useCustomer();
   const navigation = useNavigation();
 
   const {
     control,
     handleSubmit,
     setError: setFormError,
-    formState: {errors},
+    formState: { errors },
   } = useForm<RegisterSchema>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -58,7 +58,7 @@ const Register = () => {
             {
               name: 'Main',
               state: {
-                routes: [{name: 'Profile'}],
+                routes: [{ name: 'Profile' }],
               },
             },
           ],
@@ -92,7 +92,7 @@ const Register = () => {
           <Controller
             control={control}
             name="firstName"
-            render={({field: {onChange, value}}) => (
+            render={({ field: { onChange, value } }) => (
               <Input
                 label={l10n.getString('first-name')}
                 placeholder={l10n.getString('enter-your-first-name')}
@@ -111,7 +111,7 @@ const Register = () => {
           <Controller
             control={control}
             name="lastName"
-            render={({field: {onChange, value}}) => (
+            render={({ field: { onChange, value } }) => (
               <Input
                 label={l10n.getString('last-name')}
                 placeholder={l10n.getString('enter-your-last-name')}
@@ -130,7 +130,7 @@ const Register = () => {
           <Controller
             control={control}
             name="email"
-            render={({field: {onChange, value}}) => (
+            render={({ field: { onChange, value } }) => (
               <Input
                 label={l10n.getString('email')}
                 placeholder={l10n.getString('enter-your-email')}
@@ -151,7 +151,7 @@ const Register = () => {
           <Controller
             control={control}
             name="password"
-            render={({field: {onChange, value}}) => (
+            render={({ field: { onChange, value } }) => (
               <Input
                 label={l10n.getString('password')}
                 placeholder={l10n.getString('enter-your-password')}
@@ -160,7 +160,7 @@ const Register = () => {
                 secureTextEntry
                 error={
                   errors.password?.message
-                    ? l10n.getString(errors.password.message, {n: 6})
+                    ? l10n.getString(errors.password.message, { n: 6 })
                     : undefined
                 }
                 containerClassName="mb-0"

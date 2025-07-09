@@ -1,8 +1,8 @@
 import React from 'react';
-import {View, TouchableOpacity, ScrollView} from 'react-native';
+import { View, TouchableOpacity, ScrollView } from 'react-native';
 import Text from '@components/common/text';
-import {HttpTypes} from '@medusajs/types';
-import {tv} from 'tailwind-variants';
+import { HttpTypes } from '@medusajs/types';
+import { tv } from 'tailwind-variants';
 
 const optionButton = tv({
   base: 'border border-gray-200 h-10 rounded-lg py-2 px-6 flex-1 justify-center items-center',
@@ -55,11 +55,13 @@ const OptionSelect: React.FC<OptionSelectProps> = ({
                 testID="option-button"
                 className={optionButton({
                   selected: v === current,
-                })}>
+                })}
+              >
                 <Text
                   className={optionButtonText({
                     selected: v === current,
-                  })}>
+                  })}
+                >
                   {v}
                 </Text>
               </TouchableOpacity>

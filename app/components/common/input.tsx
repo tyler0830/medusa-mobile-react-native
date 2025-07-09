@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {TextInput, TextInputProps, View} from 'react-native';
+import React, { useState } from 'react';
+import { TextInput, TextInputProps, View } from 'react-native';
 import Text from './text';
 
 type InputProps = TextInputProps & {

@@ -1,6 +1,6 @@
-import React, {PropsWithChildren} from 'react';
-import {Text, TextProps} from 'react-native';
-import {tv, type VariantProps} from 'tailwind-variants';
+import React, { PropsWithChildren } from 'react';
+import { Text, TextProps } from 'react-native';
+import { tv, type VariantProps } from 'tailwind-variants';
 
 const text = tv({
   variants: {
@@ -30,7 +30,8 @@ const CommonText = ({
         type,
         className,
       })}
-      {...rest}>
+      {...rest}
+    >
       {children}
     </Text>
   );
