@@ -1,11 +1,10 @@
 version: 2
 updates:
-  - package-ecosystem: "npm"
-    directory: "/"   # adjust if your package.json is not in the root
+  - package-ecosystem: "github-actions"
+    directory: "/"
     schedule:
-      interval: "weekly"
-    allow:
-      - dependency-type: "all"
-        dependency-name: "@medusajs/js-sdk"
-      - dependency-type: "all"
-        dependency-name: "@medusajs/types"
+      interval: "daily"
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
