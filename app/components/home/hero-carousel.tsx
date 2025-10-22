@@ -9,7 +9,7 @@ import Carousel, {
 } from 'react-native-reanimated-carousel';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigation } from '@react-navigation/native';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { Pressable } from 'react-native-gesture-handler';
 
 const width = Dimensions.get('window').width;
 
@@ -87,13 +87,13 @@ const HeroCarousel = () => {
         renderItem={({ index }) => {
           const uri = formatImageUrl(data[index].imageUrl);
           return (
-            <TouchableWithoutFeedback onPress={() => onPressItem(index)}>
+            <Pressable onPress={() => onPressItem(index)}>
               <Image
                 source={{ uri }}
                 className="w-full h-full rounded-lg border border-gray-200"
                 resizeMode="cover"
               />
-            </TouchableWithoutFeedback>
+            </Pressable>
           );
         }}
       />

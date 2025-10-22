@@ -3,7 +3,7 @@ import {
   useNavigation,
   type StaticScreenProps,
 } from '@react-navigation/native';
-import { View } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { useLocalization } from '@fluent/react';
 import AnimatedCartButton from '@components/cart/animated-cart-button';
 import apiClient from '@api/client';
@@ -12,7 +12,6 @@ import Loader from '@components/common/loader';
 import ErrorUI from '@components/common/error-ui';
 import ImageCarousel from '@components/product/image-carousel';
 import Icon from '@react-native-vector-icons/ant-design';
-import { ScrollView } from 'react-native-gesture-handler';
 import Text from '@components/common/text';
 import ProductPrice from '@components/product/product-price';
 import Card from '@components/common/card';

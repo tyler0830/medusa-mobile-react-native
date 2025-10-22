@@ -36,7 +36,9 @@ const OrdersScreen = () => {
 
   const { isPending, error, data, refetch, isRefetching } = useQuery({
     queryKey: ['orders'],
-    queryFn: () => apiClient.store.order.list(),
+    queryFn: () => apiClient.store.order.list({
+      order: '-created_at',
+    }),
     enabled: !!customer,
   });
 
