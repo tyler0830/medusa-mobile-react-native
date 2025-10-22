@@ -228,7 +228,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
         return true;
       }
       return false;
-    } catch (err) {
+    } catch {
       return false;
     }
   };

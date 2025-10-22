@@ -37,7 +37,7 @@ export const CustomerProvider = ({ children }: CustomerProviderProps) => {
       const { customer: existingCustomer } =
         await apiClient.store.customer.retrieve();
       setCustomer(existingCustomer);
-    } catch (error) {
+    } catch {
       // Customer isn't logged in
       setCustomer(undefined);
     }
