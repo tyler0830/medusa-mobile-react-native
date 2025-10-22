@@ -20,6 +20,7 @@ const apiClient = new Medusa({
 
 // Force evaluation of SDK properties to ensure they're initialized
 // This is done to address a race condition
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const _ = apiClient.store && apiClient.admin && apiClient.auth && apiClient.client;
 
 export default apiClient;
