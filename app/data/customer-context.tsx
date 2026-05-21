@@ -1,4 +1,11 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { HttpTypes } from '@medusajs/types';
 import apiClient from '@api/client';
 import { useCart } from './cart-context';
@@ -27,59 +34,49 @@ export const CustomerProvider = ({ children }: CustomerProviderProps) => {
   const [customer, setCustomer] = useState<HttpTypes.StoreCustomer>();
   const { linkCartToCustomer, resetCart } = useCart();
 
-  useEffect(() => {
-    // Check for existing session on mount
-    refreshCustomer();
-  }, []);
-
-  const refreshCustomer = async () => {
+  const refreshCustomer = useCallback(async () => {
     try {
       const { customer: existingCustomer } =
         await apiClient.store.customer.retrieve();
       setCustomer(existingCustomer);
     } catch {
-      // Customer isn't logged in
       setCustomer(undefined);
     }
-  };
+  }, []);
 
-  const login = async (email: string, password: string) => {
-    try {
-      // Authenticate using the auth endpoint
+  useEffect(() => {
+    refreshCustomer();
+  }, [refreshCustomer]);
+
+  const login = useCallback(
+    async (email: string, password: string) => {
       const response = await apiClient.auth.login('customer', 'emailpass', {
         email,
         password,
       });
 
-      // Check if the response is a string
       if (typeof response === 'string') {
         await Promise.all([refreshCustomer(), linkCartToCustomer()]);
       } else {
-        // Handle third party auth
         console.log('Third party auth', response);
       }
-    } catch (error) {
-      throw error;
-    }
-  };
+    },
+    [refreshCustomer, linkCartToCustomer],
+  );
 
-  const logout = async () => {
-    try {
-      await apiClient.auth.logout();
-      await resetCart();
-      setCustomer(undefined);
-    } catch (error) {
-      throw error;
-    }
-  };
+  const logout = useCallback(async () => {
+    await apiClient.auth.logout();
+    await resetCart();
+    setCustomer(undefined);
+  }, [resetCart]);
 
-  const register = async (
-    email: string,
-    password: string,
-    firstName: string,
-    lastName: string,
-  ) => {
-    try {
+  const register = useCallback(
+    async (
+      email: string,
+      password: string,
+      firstName: string,
+      lastName: string,
+    ) => {
       const token = await apiClient.auth.register('customer', 'emailpass', {
         email,
         password,
@@ -92,34 +89,33 @@ export const CustomerProvider = ({ children }: CustomerProviderProps) => {
         last_name: lastName,
         email,
       });
-      // There's some bug with the token received from the register endpoint
-      // so we need to login again
       await login(email, password);
-    } catch (error) {
-      throw error;
-    }
-  };
+    },
+    [login],
+  );
 
-  const updateCustomer = async (data: HttpTypes.StoreUpdateCustomer) => {
-    try {
+  const updateCustomer = useCallback(
+    async (data: HttpTypes.StoreUpdateCustomer) => {
       const response = await apiClient.store.customer.update(data);
       setCustomer(response.customer);
-    } catch (error) {
-      throw error;
-    }
-  };
+    },
+    [],
+  );
+
+  const value = useMemo<CustomerContextType>(
+    () => ({
+      customer,
+      login,
+      logout,
+      register,
+      refreshCustomer,
+      updateCustomer,
+    }),
+    [customer, login, logout, register, refreshCustomer, updateCustomer],
+  );
 
   return (
-    <CustomerContext.Provider
-      value={{
-        customer,
-        login,
-        logout,
-        register,
-        refreshCustomer,
-        updateCustomer,
-      }}
-    >
+    <CustomerContext.Provider value={value}>
       {children}
     </CustomerContext.Provider>
   );

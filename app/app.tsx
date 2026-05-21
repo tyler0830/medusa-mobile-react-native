@@ -38,27 +38,36 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 export type RootStackParamList = StaticParamList<typeof RootStack>;
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 60 * 1000,
+      gcTime: 5 * 60 * 1000,
+      retry: 1,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 export default function App() {
   return (
-    <ThemeProvider name="default">
-      <LocaleProvider>
-        <RegionProvider>
-          <CartProvider>
-            <CustomerProvider>
-              <QueryClientProvider client={queryClient}>
-                <GestureHandlerRootView>
-                  <SafeAreaProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <SafeAreaProvider>
+        <ThemeProvider name="default">
+          <LocaleProvider>
+            <QueryClientProvider client={queryClient}>
+              <RegionProvider>
+                <CartProvider>
+                  <CustomerProvider>
                     <Navigation />
-                  </SafeAreaProvider>
-                </GestureHandlerRootView>
-              </QueryClientProvider>
-            </CustomerProvider>
-          </CartProvider>
-        </RegionProvider>
-      </LocaleProvider>
-    </ThemeProvider>
+                  </CustomerProvider>
+                </CartProvider>
+              </RegionProvider>
+            </QueryClientProvider>
+          </LocaleProvider>
+        </ThemeProvider>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 }
 

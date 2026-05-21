@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo, useCallback, useMemo } from 'react';
 import {
   View,
   FlatList,
@@ -80,23 +80,18 @@ const ProductsList = ({
     },
   });
 
-  if (isLoading) {
-    return <Loader />;
-  }
+  const products = useMemo(
+    () => data?.pages.flatMap(page => page.products) ?? [],
+    [data],
+  );
 
-  if (error) {
-    return <ErrorUI />;
-  }
-
-  const products = data?.pages.flatMap(page => page.products) ?? [];
-
-  const loadMore = () => {
+  const loadMore = useCallback(() => {
     if (hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
     }
-  };
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-  const renderFooter = () => {
+  const renderFooter = useCallback(() => {
     if (!isFetchingNextPage) {
       return null;
     }
@@ -105,10 +100,10 @@ const ProductsList = ({
         <ActivityIndicator size="small" color={colors.primary} />
       </View>
     );
-  };
+  }, [isFetchingNextPage, colors.primary]);
 
-  const renderHeader = () => {
-    return (
+  const renderHeader = useCallback(
+    () => (
       <View>
         {headerComponent}
         {!hideTitle && (
@@ -117,8 +112,40 @@ const ProductsList = ({
           </Text>
         )}
       </View>
-    );
-  };
+    ),
+    [headerComponent, hideTitle, name, l10n],
+  );
+
+  const renderItem = useCallback(
+    ({ item }: { item: HttpTypes.StoreProduct }) => (
+      <ProductItem product={item} />
+    ),
+    [],
+  );
+
+  const keyExtractor = useCallback(
+    (item: HttpTypes.StoreProduct) => item.id ?? '',
+    [],
+  );
+
+  const refreshControl = useMemo(
+    () => (
+      <RefreshControl
+        colors={[colors.primary]}
+        refreshing={isRefetching}
+        onRefresh={refetch}
+      />
+    ),
+    [colors.primary, isRefetching, refetch],
+  );
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (error) {
+    return <ErrorUI />;
+  }
 
   return (
     <FlatList
@@ -127,55 +154,57 @@ const ProductsList = ({
       data={products}
       numColumns={2}
       ListHeaderComponent={renderHeader}
-      renderItem={({ item }) => <ProductItem product={item} />}
-      keyExtractor={item => item.id ?? ''}
+      renderItem={renderItem}
+      keyExtractor={keyExtractor}
       onEndReached={loadMore}
       onEndReachedThreshold={0.3}
       ListFooterComponent={renderFooter}
       refreshing={isRefetching}
-      refreshControl={
-        <RefreshControl
-          colors={[colors.primary]}
-          refreshing={isRefetching}
-          onRefresh={refetch}
-        />
-      }
+      refreshControl={refreshControl}
       onRefresh={refetch}
+      removeClippedSubviews
+      initialNumToRender={6}
+      maxToRenderPerBatch={6}
+      windowSize={7}
     />
   );
 };
 
-const ProductItem = ({ product }: { product: HttpTypes.StoreProduct }) => {
-  const { cheapestPrice } = getProductPrice({
-    product,
-  });
-  const navigation = useNavigation();
-  const navigateToProduct = () => {
-    navigation.navigate('ProductDetail', { productId: product.id });
-  };
-  return (
-    <TouchableOpacity
-      onPress={navigateToProduct}
-      className="flex-1 max-w-[50%]"
-    >
-      <View>
+const ProductItem = memo(
+  ({ product }: { product: HttpTypes.StoreProduct }) => {
+    const { cheapestPrice } = useMemo(
+      () => getProductPrice({ product }),
+      [product],
+    );
+    const navigation = useNavigation();
+    const navigateToProduct = useCallback(() => {
+      navigation.navigate('ProductDetail', { productId: product.id });
+    }, [navigation, product.id]);
+    return (
+      <TouchableOpacity
+        onPress={navigateToProduct}
+        className="flex-1 max-w-[50%]"
+      >
         <View>
-          <Image
-            source={{ uri: formatImageUrl(product.thumbnail) }}
-            className="w-full h-48 rounded-2xl"
-            resizeMode="cover"
-          />
-          <View className="absolute bottom-2 right-2">
-            <WishlistButton product={product} />
+          <View>
+            <Image
+              source={{ uri: formatImageUrl(product.thumbnail) }}
+              className="w-full h-48 rounded-2xl"
+              resizeMode="cover"
+            />
+            <View className="absolute bottom-2 right-2">
+              <WishlistButton product={product} />
+            </View>
           </View>
+          <Text className="text-base leading-5 font-content-bold mt-1 mb-2">
+            {product.title}
+          </Text>
+          {cheapestPrice && <PreviewPrice price={cheapestPrice} />}
         </View>
-        <Text className="text-base leading-5 font-content-bold mt-1 mb-2">
-          {product.title}
-        </Text>
-        {cheapestPrice && <PreviewPrice price={cheapestPrice} />}
-      </View>
-    </TouchableOpacity>
-  );
-};
+      </TouchableOpacity>
+    );
+  },
+  (prev, next) => prev.product.id === next.product.id,
+);
 
 export default ProductsList;

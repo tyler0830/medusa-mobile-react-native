@@ -4,6 +4,7 @@ import React, {
   useEffect,
   useState,
   useCallback,
+  useMemo,
 } from 'react';
 import { HttpTypes } from '@medusajs/types';
 import { useRegion } from './region-context';
@@ -58,10 +59,10 @@ export const CartProvider = ({ children }: CartProviderProps) => {
 
   const additionalFields = '+shipping_methods.name';
 
-  const resetCart = async () => {
+  const resetCart = useCallback(async () => {
     await AsyncStorage.removeItem(CART_KEY);
     setCart(undefined);
-  };
+  }, []);
 
   const updateCart = useCallback(
     async (data: CartUpdateData) => {
@@ -131,7 +132,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     });
   }, [cart, region, updateCartRegion]);
 
-  const fetchCart = async (cartId: string) => {
+  const fetchCart = useCallback(async (cartId: string) => {
     return apiClient.store.cart
       .retrieve(cartId, {
         fields: additionalFields,
@@ -139,106 +140,118 @@ export const CartProvider = ({ children }: CartProviderProps) => {
       .then(({ cart: dataCart }) => {
         setCart(dataCart);
       });
-  };
+  }, []);
 
-  const addToCart = async (variantId: string, quantity: number) => {
-    if (!cart) {
-      return;
-    }
+  const addToCart = useCallback(
+    async (variantId: string, quantity: number) => {
+      if (!cart) {
+        return;
+      }
 
-    try {
-      const { cart: dataCart } = await apiClient.store.cart.createLineItem(
-        cart.id,
-        {
-          variant_id: variantId,
-          quantity,
-        },
-      );
-      setCart(dataCart);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const updateLineItem = async (lineItemId: string, quantity: number) => {
-    if (!cart) {
-      return;
-    }
-
-    try {
-      if (quantity === 0) {
-        await apiClient.store.cart.deleteLineItem(cart.id, lineItemId);
-        await fetchCart(cart.id);
-      } else {
-        const { cart: dataCart } = await apiClient.store.cart.updateLineItem(
+      try {
+        const { cart: dataCart } = await apiClient.store.cart.createLineItem(
           cart.id,
-          lineItemId,
           {
+            variant_id: variantId,
             quantity,
           },
         );
         setCart(dataCart);
+      } catch (err) {
+        console.log(err);
       }
-    } catch (err) {
-      console.log(err);
-    }
-  };
+    },
+    [cart],
+  );
 
-  const linkCartToCustomer = async () => {
+  const updateLineItem = useCallback(
+    async (lineItemId: string, quantity: number) => {
+      if (!cart) {
+        return;
+      }
+
+      try {
+        if (quantity === 0) {
+          await apiClient.store.cart.deleteLineItem(cart.id, lineItemId);
+          await fetchCart(cart.id);
+        } else {
+          const { cart: dataCart } = await apiClient.store.cart.updateLineItem(
+            cart.id,
+            lineItemId,
+            {
+              quantity,
+            },
+          );
+          setCart(dataCart);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    [cart, fetchCart],
+  );
+
+  const linkCartToCustomer = useCallback(async () => {
     const { cart: dataCart } = await apiClient.store.cart.transferCart(
       cart?.id || '',
     );
     setCart(dataCart);
-  };
+  }, [cart?.id]);
 
-  const setShippingMethod = async (shippingMethodId: string) => {
-    const { cart: updatedCart } = await apiClient.store.cart.addShippingMethod(
-      cart?.id || '',
-      {
-        option_id: shippingMethodId,
-      },
-      {
-        fields: additionalFields,
-      },
-    );
-    setCart(updatedCart);
-    return updatedCart;
-  };
-
-  const applyPromoCode = async (code: string): Promise<boolean> => {
-    if (!cart?.id) {
-      throw new Error('No cart found');
-    }
-
-    try {
-      const existingCodes =
-        cart.promotions
-          ?.filter(p => !p.is_automatic && p.code)
-          .map(p => p.code!) || [];
-
-      const { cart: updatedCart } = await apiClient.store.cart.update(cart.id, {
-        promo_codes: [...existingCodes, code],
-      });
+  const setShippingMethod = useCallback(
+    async (shippingMethodId: string) => {
+      const { cart: updatedCart } =
+        await apiClient.store.cart.addShippingMethod(
+          cart?.id || '',
+          {
+            option_id: shippingMethodId,
+          },
+          {
+            fields: additionalFields,
+          },
+        );
       setCart(updatedCart);
-      // check if updatedCart has the promo code
-      const updatedCartPromoCodes = updatedCart.promotions
-        ?.filter(p => p.code)
-        .map(p => p.code);
-      if (updatedCartPromoCodes?.includes(code)) {
-        return true;
+      return updatedCart;
+    },
+    [cart?.id],
+  );
+
+  const applyPromoCode = useCallback(
+    async (code: string): Promise<boolean> => {
+      if (!cart?.id) {
+        throw new Error('No cart found');
       }
-      return false;
-    } catch {
-      return false;
-    }
-  };
 
-  const removePromoCode = async (code: string) => {
-    if (!cart?.id) {
-      throw new Error('No cart found');
-    }
+      try {
+        const existingCodes =
+          cart.promotions
+            ?.filter(p => !p.is_automatic && p.code)
+            .map(p => p.code!) || [];
 
-    try {
+        const { cart: updatedCart } = await apiClient.store.cart.update(
+          cart.id,
+          {
+            promo_codes: [...existingCodes, code],
+          },
+        );
+        setCart(updatedCart);
+        const updatedCartPromoCodes = updatedCart.promotions
+          ?.filter(p => p.code)
+          .map(p => p.code);
+        return Boolean(updatedCartPromoCodes?.includes(code));
+      } catch {
+        return false;
+      }
+    },
+    [cart],
+  );
+
+  const removePromoCode = useCallback(
+    async (code: string) => {
+      if (!cart?.id) {
+        throw new Error('No cart found');
+      }
+
       const existingCodes =
         cart.promotions
           ?.filter(p => !p.is_automatic && p.code !== code)
@@ -248,28 +261,38 @@ export const CartProvider = ({ children }: CartProviderProps) => {
         promo_codes: existingCodes,
       });
       setCart(updatedCart);
-    } catch (err) {
-      throw err;
-    }
-  };
+    },
+    [cart],
+  );
+
+  const value = useMemo<CartContextType>(
+    () => ({
+      cart,
+      setCart,
+      resetCart,
+      addToCart,
+      updateLineItem,
+      updateCart,
+      linkCartToCustomer,
+      setShippingMethod,
+      applyPromoCode,
+      removePromoCode,
+    }),
+    [
+      cart,
+      resetCart,
+      addToCart,
+      updateLineItem,
+      updateCart,
+      linkCartToCustomer,
+      setShippingMethod,
+      applyPromoCode,
+      removePromoCode,
+    ],
+  );
 
   return (
-    <CartContext.Provider
-      value={{
-        cart,
-        setCart,
-        resetCart,
-        addToCart,
-        updateLineItem,
-        updateCart,
-        linkCartToCustomer,
-        setShippingMethod,
-        applyPromoCode,
-        removePromoCode,
-      }}
-    >
-      {children}
-    </CartContext.Provider>
+    <CartContext.Provider value={value}>{children}</CartContext.Provider>
   );
 };
 
