@@ -38,9 +38,11 @@ const CartItems = ({
   if (!cart) {
     return null;
   }
-  const sortedItems = cart?.items?.sort((a, b) => {
-    return (a.created_at ?? '') < (b.created_at ?? '') ? -1 : 1;
-  });
+  const sortedItems = cart?.items
+    ? [...cart.items].sort((a, b) =>
+        (a.created_at ?? '') < (b.created_at ?? '') ? -1 : 1,
+      )
+    : [];
   return (
     <View>
       {sortedItems?.map(item => (

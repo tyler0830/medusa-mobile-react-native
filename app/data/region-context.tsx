@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { HttpTypes } from '@medusajs/types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import apiClient from '@api/client';
@@ -47,15 +53,16 @@ export const RegionProvider = ({ children }: RegionProviderProps) => {
     });
   }, [region?.id]);
 
+  const value = useMemo(
+    () => ({
+      region,
+      setRegion,
+    }),
+    [region],
+  );
+
   return (
-    <RegionContext.Provider
-      value={{
-        region,
-        setRegion,
-      }}
-    >
-      {children}
-    </RegionContext.Provider>
+    <RegionContext.Provider value={value}>{children}</RegionContext.Provider>
   );
 };
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo, useCallback } from 'react';
 import {
   View,
   Image,
@@ -52,6 +52,10 @@ const FeaturedCollection = ({
     },
   });
 
+  const goToCollections = useCallback(() => {
+    navigation.dispatch(TabActions.jumpTo('Collections'));
+  }, [navigation]);
+
   if (!data?.products || data.products.length === 0) {
     return null;
   }
@@ -63,11 +67,7 @@ const FeaturedCollection = ({
           {name ?? l10n.getString('top-selling')}
         </Text>
         {showCta && (
-          <TouchableOpacity
-            onPress={() =>
-              navigation.dispatch(TabActions.jumpTo('Collections'))
-            }
-          >
+          <TouchableOpacity onPress={goToCollections}>
             <Text className="text-primary">{l10n.getString('see-all')}</Text>
           </TouchableOpacity>
         )}
@@ -96,31 +96,36 @@ const styles = StyleSheet.create({
   },
 });
 
-const ProductCard = ({ product }: { product: HttpTypes.StoreProduct }) => {
-  const navigation = useNavigation();
-  const { cheapestPrice } = getProductPrice({ product });
+const ProductCard = memo(
+  ({ product }: { product: HttpTypes.StoreProduct }) => {
+    const navigation = useNavigation();
+    const { cheapestPrice } = getProductPrice({ product });
 
-  return (
-    <TouchableOpacity
-      onPress={() =>
-        navigation.navigate('ProductDetail', { productId: product.id })
-      }
-      style={{ width: ITEM_WIDTH }}
-      className="gap-2"
-    >
-      <Image
-        source={{ uri: formatImageUrl(product.thumbnail) }}
-        className="w-full h-48 rounded-lg"
-        resizeMode="cover"
-      />
-      <View className="gap-1">
-        <Text className="text-base font-content-bold" numberOfLines={1}>
-          {product.title}
-        </Text>
-        {cheapestPrice && <PreviewPrice price={cheapestPrice} />}
-      </View>
-    </TouchableOpacity>
-  );
-};
+    const onPress = useCallback(() => {
+      navigation.navigate('ProductDetail', { productId: product.id });
+    }, [navigation, product.id]);
+
+    return (
+      <TouchableOpacity
+        onPress={onPress}
+        style={{ width: ITEM_WIDTH }}
+        className="gap-2"
+      >
+        <Image
+          source={{ uri: formatImageUrl(product.thumbnail) }}
+          className="w-full h-48 rounded-lg"
+          resizeMode="cover"
+        />
+        <View className="gap-1">
+          <Text className="text-base font-content-bold" numberOfLines={1}>
+            {product.title}
+          </Text>
+          {cheapestPrice && <PreviewPrice price={cheapestPrice} />}
+        </View>
+      </TouchableOpacity>
+    );
+  },
+  (prev, next) => prev.product.id === next.product.id,
+);
 
 export default FeaturedCollection;

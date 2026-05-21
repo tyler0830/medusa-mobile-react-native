@@ -1,5 +1,5 @@
 import { useColorScheme } from 'nativewind';
-import React, { createContext, PropsWithChildren } from 'react';
+import React, { createContext, PropsWithChildren, useMemo } from 'react';
 import { themes, themeColorSets, ThemeName } from '@styles/themes';
 import { View } from 'react-native';
 import { Colors } from '@styles/types';
@@ -32,16 +32,20 @@ function ThemeProvider({
   const { colorScheme = 'light' } = useColorScheme();
   const themeStyles = themes[themeName][colorScheme];
   const colors = themeColorSets[themeName][colorScheme];
+
+  const value = useMemo<ThemeContext>(
+    () => ({
+      name: themeName,
+      setThemeName,
+      colors,
+      colorScheme,
+      isDarkMode: colorScheme === 'dark',
+    }),
+    [themeName, colors, colorScheme],
+  );
+
   return (
-    <ThemeContext.Provider
-      value={{
-        name: themeName,
-        setThemeName,
-        colors,
-        colorScheme,
-        isDarkMode: colorScheme === 'dark',
-      }}
-    >
+    <ThemeContext.Provider value={value}>
       <View className="flex-1" style={themeStyles}>
         {children}
       </View>
